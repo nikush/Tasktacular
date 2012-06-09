@@ -23,6 +23,10 @@ public class TasktacularActivity extends Activity
 
         ActionBar actionBar = getActionBar();
 
+        // remove the top of the action bar to only show tabs
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+
         // Tell it we want to use tabs
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
