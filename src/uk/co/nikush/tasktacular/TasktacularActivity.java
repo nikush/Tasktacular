@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 public class TasktacularActivity extends Activity
 {
@@ -41,5 +43,12 @@ public class TasktacularActivity extends Activity
 
         actionBar.addTab(allTab);
         actionBar.addTab(projectsTab);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_all_fragment, menu);
+        return true;
     }
 }
