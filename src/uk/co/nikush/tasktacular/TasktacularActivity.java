@@ -7,9 +7,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class TasktacularActivity extends Activity
 {
@@ -50,5 +52,17 @@ public class TasktacularActivity extends Activity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_all_fragment, menu);
         return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.add:
+                startActivity(new Intent(this, AddTaskActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

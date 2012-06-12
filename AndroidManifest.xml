@@ -14,11 +14,16 @@
             android:label="@string/app_name"
             android:uiOptions="splitActionBarWhenNarrow"><!-- enable split action bar -->
             <intent-filter>
+                <!-- indicate that this activity serves as the entry point for the application -->
                 <action android:name="android.intent.action.MAIN" />
-
+                
+                <!-- indicate that the application can be launched from the device’s launcher icon -->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity 
+            android:name=".AddTaskActivity"
+            android:label="Add Task"></activity>
     </application>
 
 </manifest>
