@@ -1,5 +1,6 @@
 package uk.co.nikush.tasktacular;
 
+import uk.co.nikush.tasktacular.database.DBAdapter;
 import uk.co.nikush.tasktacular.fragments.AllFragment;
 import uk.co.nikush.tasktacular.fragments.ProjectsFragment;
 import uk.co.nikush.tasktacular.handlers.MainTabListener;
@@ -8,10 +9,12 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class TasktacularActivity extends Activity
 {
@@ -45,6 +48,30 @@ public class TasktacularActivity extends Activity
 
         actionBar.addTab(allTab);
         actionBar.addTab(projectsTab);
+
+        readDb();
+    }
+
+    private void readDb()
+    {
+        DBAdapter db = new DBAdapter(this);
+        db.open();
+        Cursor c = db.getAllTasks();
+        if (c.moveToFirst())
+        {
+            do
+            {
+                DisplayTask(c);
+            } while (c.moveToNext());
+        }
+        db.close();
+    }
+
+    private void DisplayTask(Cursor c)
+    {
+        Toast.makeText(this, "id: " + c.getString(0) + "\n" + "title: "
+                + c.getString(1) + "\n" + "description: " + c.getString(2)
+                + "\n", Toast.LENGTH_SHORT).show();
     }
 
     public boolean onCreateOptionsMenu(Menu menu)

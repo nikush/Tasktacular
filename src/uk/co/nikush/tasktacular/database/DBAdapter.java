@@ -26,13 +26,13 @@ public class DBAdapter
 
     static final String DATABASE_NAME = "tasktacular";
 
-    static final String DATABASE_TABLE = "taskn";
+    static final String DATABASE_TABLE = "tasks";
 
     static final int DATABASE_VERSION = 1;
 
-    static final String DATABASE_CREATE = "create table contacts (_id integer primary key autoincrement, "
+    static final String DATABASE_CREATE = "create table tasks (_id integer primary key autoincrement, "
             + "title text not null, description text, "
-            + "date_created string not null, date_due string, date_last_modified string not null);";
+            + "date_created text not null, date_due text, date_last_modified text not null);";
 
     final Context context;
 
@@ -95,6 +95,9 @@ public class DBAdapter
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TITLE, title);
         initialValues.put(KEY_DESCRIPTION, description);
+        initialValues.put(KEY_DATE_CREATED, "");
+        initialValues.put(KEY_DATE_DUE, "");
+        initialValues.put(KEY_DATE_LAST_MODIFIED, "");
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 
