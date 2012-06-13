@@ -1,13 +1,16 @@
 package uk.co.nikush.tasktacular.handlers;
 
 import uk.co.nikush.tasktacular.R;
-import uk.co.nikush.tasktacular.TasktacularActivity;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.widget.Toast;
 
+/**
+ * Handler class for managing tabs in the main activity
+ * 
+ * @author  Nikush Patel
+ */
 public class MainTabListener implements TabListener
 {
     public Fragment fragment;
@@ -15,12 +18,6 @@ public class MainTabListener implements TabListener
     public MainTabListener(Fragment fragment)
     {
         this.fragment = fragment;
-    }
-
-    @Override
-    public void onTabReselected(Tab tab, FragmentTransaction ft)
-    {
-        Toast.makeText(TasktacularActivity.appContext, "Reselected", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -33,6 +30,12 @@ public class MainTabListener implements TabListener
     public void onTabUnselected(Tab tab, FragmentTransaction ft)
     {
         ft.remove(fragment);
+    }
+
+    @Override
+    public void onTabReselected(Tab tab, FragmentTransaction ft)
+    {
+    
     }
 
 }

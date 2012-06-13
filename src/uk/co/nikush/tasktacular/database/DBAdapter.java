@@ -8,6 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/**
+ * Simple class for communicating with the database
+ * 
+ * @author  Nikush Patel
+ */
 public class DBAdapter
 {
     static final String KEY_ROWID = "_id";
@@ -46,6 +51,11 @@ public class DBAdapter
         DBHelper = new DatabaseHelper(context);
     }
 
+    /**
+     * Simple helper class for connecting to the database
+     *
+     * @author  Nikush Patel
+     */
     private static class DatabaseHelper extends SQLiteOpenHelper
     {
 
@@ -76,20 +86,17 @@ public class DBAdapter
         }
     }
 
-    //---opens the database---
     public DBAdapter open() throws SQLException
     {
         db = DBHelper.getWritableDatabase();
         return this;
     }
 
-    //---closes the database---
     public void close()
     {
         DBHelper.close();
     }
 
-    //---insert a task into the database---
     public long insertTask(String title, String description)
     {
         ContentValues initialValues = new ContentValues();
@@ -101,20 +108,17 @@ public class DBAdapter
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 
-    //---deletes a particular task---
     public boolean deleteTask(long rowId)
     {
         return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
-    //---retrieves all the tasks---
     public Cursor getAllTasks()
     {
         return db.query(DATABASE_TABLE, new String[] { KEY_ROWID, KEY_TITLE,
                 KEY_DESCRIPTION }, null, null, null, null, null);
     }
 
-    //---retrieves a particular task---
     public Cursor getTask(long rowId) throws SQLException
     {
         Cursor mCursor = db.query(true, DATABASE_TABLE, new String[] {
@@ -127,8 +131,7 @@ public class DBAdapter
         return mCursor;
     }
 
-    //---updates a contact---
-    public boolean updateContact(long rowId, String title, String description)
+    public boolean updateTask(long rowId, String title, String description)
     {
         ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);

@@ -13,6 +13,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+/**
+ * Main application activity. 
+ * 
+ * @author  Nikush Patel
+ */
 public class TasktacularActivity extends Activity
 {
     public static Context appContext;
@@ -26,26 +31,7 @@ public class TasktacularActivity extends Activity
 
         appContext = this;
 
-        ActionBar actionBar = getActionBar();
-
-        // remove the top of the action bar to only show tabs
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-
-        // Tell it we want to use tabs
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        ActionBar.Tab allTab = actionBar.newTab().setText("All");
-        ActionBar.Tab projectsTab = actionBar.newTab().setText("Projects");
-
-        Fragment allFragment = new AllFragment();
-        Fragment projectsFragment = new ProjectsFragment();
-
-        allTab.setTabListener(new MainTabListener(allFragment));
-        projectsTab.setTabListener(new MainTabListener(projectsFragment));
-
-        actionBar.addTab(allTab);
-        actionBar.addTab(projectsTab);
+        setUpActionBar();
     }
 
     @Override
@@ -94,11 +80,38 @@ public class TasktacularActivity extends Activity
     {
         switch (item.getItemId())
         {
-            case R.id.add:
+            case R.id.add_button:
                 startActivity(new Intent(this, AddTaskActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Initialise the action bar for use with tabs
+     */
+    private void setUpActionBar()
+    {
+        ActionBar actionBar = getActionBar();
+
+        // remove the top of the action bar to only show tabs
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        // Tell it we want to use tabs
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        ActionBar.Tab allTab = actionBar.newTab().setText("All");
+        ActionBar.Tab projectsTab = actionBar.newTab().setText("Projects");
+
+        Fragment allFragment = new AllFragment();
+        Fragment projectsFragment = new ProjectsFragment();
+
+        allTab.setTabListener(new MainTabListener(allFragment));
+        projectsTab.setTabListener(new MainTabListener(projectsFragment));
+
+        actionBar.addTab(allTab);
+        actionBar.addTab(projectsTab);
     }
 }

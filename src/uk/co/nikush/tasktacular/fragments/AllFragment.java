@@ -14,6 +14,11 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Fragment that lists all tasks in the database
+ * 
+ * @author  Nikush Patel
+ */
 public class AllFragment extends ListFragment
 {
     private Context context;
@@ -21,12 +26,16 @@ public class AllFragment extends ListFragment
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState)
     {
         context = getActivity().getBaseContext();
+
         // move this into one of the on... methods so it can get refreshed
         readDb();
 
         return inflator.inflate(R.layout.all_fragment, container, false);
     }
 
+    /**
+     * Read tasks and display into list view
+     */
     private void readDb()
     {
         DBAdapter db = new DBAdapter(context);

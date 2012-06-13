@@ -8,6 +8,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * Activity for adding tasks to the database
+ * 
+ * @author  Nikush Patel
+ */
 public class AddTaskActivity extends Activity implements OnClickListener
 {
     public void onCreate(Bundle savedInstanceState)
@@ -31,14 +36,13 @@ public class AddTaskActivity extends Activity implements OnClickListener
 
     private void addTask()
     {
-        TextView titleText = (TextView) findViewById(R.id.title);
-        TextView descText = (TextView) findViewById(R.id.description);
+        TextView titleText = (TextView) findViewById(R.id.title_input);
+        TextView descText = (TextView) findViewById(R.id.description_input);
 
         DBAdapter db = new DBAdapter(this);
         db.open();
         db.insertTask(titleText.getText().toString(), descText.getText().toString()); // returns id as long data type
         db.close();
-        finish();
-        //startActivity(new Intent(this, TasktacularActivity.class));
+        finish(); // finish activity and return to previous activity in  back stack
     }
 }

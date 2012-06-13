@@ -7,6 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Fragment for displaying projects in the database
+ * 
+ * @author  Nikush Patel
+ */
 public class ProjectsFragment extends Fragment
 {
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState)

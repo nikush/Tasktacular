@@ -10,9 +10,10 @@
         android:text="Title" />
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/title_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="text"
         android:ems="10" />
 
     <TextView
@@ -21,11 +22,11 @@
         android:text="Description" />
 
     <EditText
-        android:id="@+id/description"
+        android:id="@+id/description_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:ems="10" />
     
     <Button 
         android:id="@+id/add_button"
