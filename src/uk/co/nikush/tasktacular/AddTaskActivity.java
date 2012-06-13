@@ -1,6 +1,6 @@
 package uk.co.nikush.tasktacular;
 
-import uk.co.nikush.tasktacular.database.DBAdapter;
+import uk.co.nikush.tasktacular.database.TasksTable;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,10 +39,10 @@ public class AddTaskActivity extends Activity implements OnClickListener
         TextView titleText = (TextView) findViewById(R.id.title_input);
         TextView descText = (TextView) findViewById(R.id.description_input);
 
-        DBAdapter db = new DBAdapter(this);
-        db.open();
-        db.insertTask(titleText.getText().toString(), descText.getText().toString()); // returns id as long data type
-        db.close();
+        TasksTable tasks = new TasksTable(this);
+        tasks.open();
+        tasks.insertTask(titleText.getText().toString(), descText.getText().toString()); // returns id as long data type
+        tasks.close();
         finish(); // finish activity and return to previous activity in  back stack
     }
 }

@@ -1,7 +1,7 @@
 package uk.co.nikush.tasktacular.fragments;
 
 import uk.co.nikush.tasktacular.R;
-import uk.co.nikush.tasktacular.database.DBAdapter;
+import uk.co.nikush.tasktacular.database.TasksTable;
 import android.app.ListFragment;
 import android.content.Context;
 import android.database.Cursor;
@@ -38,9 +38,9 @@ public class TasksFragment extends ListFragment
      */
     private void readDb()
     {
-        DBAdapter db = new DBAdapter(context);
-        db.open();
-        Cursor c = db.getAllTasks();
+        TasksTable tasks = new TasksTable(context);
+        tasks.open();
+        Cursor c = tasks.getAllTasks();
 
         String[] from = { "_id", "title" };
         int[] to = { R.id.task_id, R.id.task_title };
@@ -57,11 +57,11 @@ public class TasksFragment extends ListFragment
         String id_str = (String) ((TextView) v.findViewById(R.id.task_id)).getText();
         long record_id = Long.parseLong(id_str);
 
-        DBAdapter db = new DBAdapter(context);
-        db.open();
-        Cursor c = db.getTask(record_id);
+        TasksTable tasks = new TasksTable(context);
+        tasks.open();
+        Cursor c = tasks.getTask(record_id);
         desc = c.getString(2);
-        db.close();
+        tasks.close();
         Toast.makeText(context, desc, Toast.LENGTH_SHORT).show();
     }
 }
