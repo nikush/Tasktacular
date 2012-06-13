@@ -30,7 +30,7 @@ public class AllFragment extends ListFragment
         // move this into one of the on... methods so it can get refreshed
         readDb();
 
-        return inflator.inflate(R.layout.all_fragment, container, false);
+        return inflator.inflate(R.layout.main_tasks_fragment, container, false);
     }
 
     /**

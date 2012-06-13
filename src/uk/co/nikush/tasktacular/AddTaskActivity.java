@@ -18,7 +18,7 @@ public class AddTaskActivity extends Activity implements OnClickListener
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add);
+        setContentView(R.layout.add_task);
 
         ((Button) findViewById(R.id.add_button)).setOnClickListener(this);
     }

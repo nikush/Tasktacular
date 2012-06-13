@@ -16,6 +16,6 @@ public class ProjectsFragment extends Fragment
 {
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflator.inflate(R.layout.projects_fragment, container, false);
+        return inflator.inflate(R.layout.main_projects_fragment, container, false);
     }
 }
