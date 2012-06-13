@@ -11,9 +11,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public abstract class DatabaseHelper extends SQLiteOpenHelper
 {
-    static final String DATABASE_NAME = "tasktacular";
+    public static final String DATABASE_NAME = "tasktacular";
 
-    static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 1;
 
     protected SQLiteDatabase db;
 

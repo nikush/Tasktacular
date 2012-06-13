@@ -9,19 +9,19 @@ import android.util.Log;
 
 public class TasksTable extends DatabaseHelper
 {
-    static final String KEY_ROWID = "_id";
+    public static final String KEY_ROWID = "_id";
 
-    static final String KEY_TITLE = "title";
+    public static final String KEY_TITLE = "title";
 
-    static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_DESCRIPTION = "description";
 
-    static final String KEY_DATE_CREATED = "date_created";
+    public static final String KEY_DATE_CREATED = "date_created";
 
-    static final String KEY_DATE_DUE = "date_due";
+    public static final String KEY_DATE_DUE = "date_due";
 
-    static final String KEY_DATE_LAST_MODIFIED = "date_last_modified";
+    public static final String KEY_DATE_LAST_MODIFIED = "date_last_modified";
 
-    static final String TABLE_NAME = "tasks";
+    public static final String TABLE_NAME = "tasks";
 
     static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " ("
             + KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TITLE

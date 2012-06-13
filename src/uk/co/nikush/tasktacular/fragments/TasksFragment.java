@@ -51,7 +51,7 @@ public class TasksFragment extends ListFragment
     {
         Cursor c = tasks.getAllTasks();
 
-        String[] from = { "_id", "title" };
+        String[] from = { TasksTable.KEY_ROWID, TasksTable.KEY_TITLE };
         int[] to = { R.id.task_id, R.id.task_title };
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(context, R.layout.task_list_item, c, from, to, 0);
