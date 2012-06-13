@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Simple class for communicating with the database
+ * Simple class used to help working with the SQLiteOpenHelper.
+ * 
+ * It acquired the database object and keeps track of the database version.
  * 
  * @author  Nikush Patel
  */

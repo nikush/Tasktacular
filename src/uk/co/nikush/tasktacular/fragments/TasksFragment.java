@@ -32,10 +32,14 @@ public class TasksFragment extends ListFragment
         tasks = new TasksTable(context);
         tasks.open();
 
-        // move this into one of the on... methods so it can get refreshed
-        readTasks();
-
         return inflator.inflate(R.layout.main_tasks_fragment, container, false);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        readTasks();
     }
 
     public void onDestroyView()
