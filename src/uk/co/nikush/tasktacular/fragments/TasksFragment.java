@@ -1,9 +1,11 @@
 package uk.co.nikush.tasktacular.fragments;
 
 import uk.co.nikush.tasktacular.R;
+import uk.co.nikush.tasktacular.TaskDetailActivity;
 import uk.co.nikush.tasktacular.database.TasksTable;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Fragment that lists all tasks in the database
@@ -65,12 +66,12 @@ public class TasksFragment extends ListFragment
     @Override
     public void onListItemClick(ListView l, View v, int position, long id)
     {
-        String desc = "";
         String id_str = (String) ((TextView) v.findViewById(R.id.task_id)).getText();
         long record_id = Long.parseLong(id_str);
 
-        Cursor c = tasks.getTask(record_id);
-        desc = c.getString(2);
-        Toast.makeText(context, desc, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity().getBaseContext(), TaskDetailActivity.class);
+        intent.putExtra("task_id", record_id);
+
+        startActivity(intent);
     }
 }

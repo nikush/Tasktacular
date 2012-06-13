@@ -11,15 +11,27 @@ public class TasksTable extends DatabaseHelper
 {
     public static final String KEY_ROWID = "_id";
 
+    public static final int KEY_ROWID_INDEX = 0;
+
     public static final String KEY_TITLE = "title";
+
+    public static final int KEY_TITLE_INDEX = 1;
 
     public static final String KEY_DESCRIPTION = "description";
 
+    public static final int KEY_DESCRIPTION_INDEX = 2;
+
     public static final String KEY_DATE_CREATED = "date_created";
+
+    public static final int KEY_DATE_CREATED_INDEX = 3;
 
     public static final String KEY_DATE_DUE = "date_due";
 
+    public static final int KEY_DATE_DUE_INDEX = 4;
+
     public static final String KEY_DATE_LAST_MODIFIED = "date_last_modified";
+
+    public static final int KEY_DATE_LAST_MODIFIED_INDEX = 5;
 
     public static final String TABLE_NAME = "tasks";
 

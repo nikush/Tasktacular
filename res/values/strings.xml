@@ -22,5 +22,11 @@
     <!-- Activities -->
     <!-- Main -->
     <string name="no_tasks">No Tasks</string>
+    
+    <!-- Add Task -->
+    <string name="add_task">Add Task</string>
+    
+    <!-- Task Detail -->
+    <string name="task_detail">Task Detail</string>
 
 </resources>
