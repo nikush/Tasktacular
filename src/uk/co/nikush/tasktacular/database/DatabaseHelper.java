@@ -9,21 +9,17 @@ import android.database.sqlite.SQLiteOpenHelper;
  * 
  * @author  Nikush Patel
  */
-public class DatabaseHelper extends SQLiteOpenHelper
+public abstract class DatabaseHelper extends SQLiteOpenHelper
 {
     static final String DATABASE_NAME = "tasktacular";
 
     static final int DATABASE_VERSION = 1;
-
-    final Context context;
 
     protected SQLiteDatabase db;
 
     public DatabaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
-        this.context = context;
     }
 
     public void open()
@@ -34,17 +30,5 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public void close()
     {
         db.close();
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db)
-    {
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-    {
-
     }
 }
