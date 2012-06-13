@@ -23,23 +23,32 @@ public class TasksFragment extends ListFragment
 {
     private Context context;
 
+    private TasksTable tasks;
+
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstanceState)
     {
         context = getActivity().getBaseContext();
 
+        tasks = new TasksTable(context);
+        tasks.open();
+
         // move this into one of the on... methods so it can get refreshed
-        readDb();
+        readTasks();
 
         return inflator.inflate(R.layout.main_tasks_fragment, container, false);
+    }
+
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        tasks.close();
     }
 
     /**
      * Read tasks and display into list view
      */
-    private void readDb()
+    private void readTasks()
     {
-        TasksTable tasks = new TasksTable(context);
-        tasks.open();
         Cursor c = tasks.getAllTasks();
 
         String[] from = { "_id", "title" };
@@ -47,7 +56,6 @@ public class TasksFragment extends ListFragment
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(context, R.layout.task_list_item, c, from, to, 0);
         setListAdapter(adapter);
-        //db.close();
     }
 
     @Override
@@ -57,11 +65,8 @@ public class TasksFragment extends ListFragment
         String id_str = (String) ((TextView) v.findViewById(R.id.task_id)).getText();
         long record_id = Long.parseLong(id_str);
 
-        TasksTable tasks = new TasksTable(context);
-        tasks.open();
         Cursor c = tasks.getTask(record_id);
         desc = c.getString(2);
-        tasks.close();
         Toast.makeText(context, desc, Toast.LENGTH_SHORT).show();
     }
 }
