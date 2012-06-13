@@ -38,6 +38,7 @@ public class AddTaskActivity extends Activity implements OnClickListener
         db.open();
         db.insertTask(titleText.getText().toString(), descText.getText().toString()); // returns id as long data type
         db.close();
+        finish();
         //startActivity(new Intent(this, TasktacularActivity.class));
     }
 }
