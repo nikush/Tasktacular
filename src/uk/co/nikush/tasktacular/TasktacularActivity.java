@@ -102,8 +102,8 @@ public class TasktacularActivity extends Activity
         // Tell it we want to use tabs
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        ActionBar.Tab allTab = actionBar.newTab().setText("All");
-        ActionBar.Tab projectsTab = actionBar.newTab().setText("Projects");
+        ActionBar.Tab allTab = actionBar.newTab().setText(getResources().getString(R.string.tasks));
+        ActionBar.Tab projectsTab = actionBar.newTab().setText(getResources().getString(R.string.projects));
 
         Fragment allFragment = new AllFragment();
         Fragment projectsFragment = new ProjectsFragment();

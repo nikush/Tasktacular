@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, TasktacularActivity!</string>
     <string name="app_name">Tasktacular</string>
+    
+    <!-- Common words -->
+    <string name="task">Task</string>
+    <string name="tasks">Tasks</string>
+    <string name="project">Project</string>
+    <string name="projects">Projects</string>
+    
+    <!-- Menus -->
+    <string name="menu_add">Add</string>
+    <string name="menu_sort">Sort</string>
+    <string name="menu_view">View</string>
+    
+    <!-- Form -->
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="form_add_task">Add Task</string>
+    
+    <!-- Activities -->
+    <!-- Main -->
+    <string name="no_tasks">No Tasks</string>
 
 </resources>
