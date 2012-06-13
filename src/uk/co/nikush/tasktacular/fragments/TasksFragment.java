@@ -19,7 +19,7 @@ import android.widget.Toast;
  * 
  * @author  Nikush Patel
  */
-public class AllFragment extends ListFragment
+public class TasksFragment extends ListFragment
 {
     private Context context;
 

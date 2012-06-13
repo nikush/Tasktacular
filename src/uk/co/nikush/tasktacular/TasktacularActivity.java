@@ -1,7 +1,7 @@
 package uk.co.nikush.tasktacular;
 
-import uk.co.nikush.tasktacular.fragments.AllFragment;
 import uk.co.nikush.tasktacular.fragments.ProjectsFragment;
+import uk.co.nikush.tasktacular.fragments.TasksFragment;
 import uk.co.nikush.tasktacular.handlers.MainTabListener;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -105,7 +105,7 @@ public class TasktacularActivity extends Activity
         ActionBar.Tab allTab = actionBar.newTab().setText(getResources().getString(R.string.tasks));
         ActionBar.Tab projectsTab = actionBar.newTab().setText(getResources().getString(R.string.projects));
 
-        Fragment allFragment = new AllFragment();
+        Fragment allFragment = new TasksFragment();
         Fragment projectsFragment = new ProjectsFragment();
 
         allTab.setTabListener(new MainTabListener(allFragment));
