@@ -23,7 +23,12 @@
         </activity>
         <activity 
             android:name=".AddTaskActivity"
-            android:label="@string/add_task"></activity>
+            android:label="@string/add_task">
+        </activity>
+        <activity
+            android:name=".TaskDetailActivity"
+            android:label="@string/task_detail">
+        </activity>
     </application>
 
 </manifest>

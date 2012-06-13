@@ -25,5 +25,8 @@
     
     <!-- Add Task -->
     <string name="add_task">Add Task</string>
+    
+    <!-- Task Detail -->
+    <string name="task_detail">Task Detail</string>
 
 </resources>
