@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -31,6 +33,13 @@ public class TaskDetailActivity extends Activity
         title.setText(record.getString(TasksTable.KEY_TITLE_INDEX));
         TextView description = (TextView) findViewById(R.id.task_description);
         description.setText(record.getString(TasksTable.KEY_DESCRIPTION_INDEX));
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.task_detail, menu);
+        return true;
     }
 
     @Override

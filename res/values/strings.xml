@@ -13,6 +13,8 @@
     <string name="menu_add">Add</string>
     <string name="menu_sort">Sort</string>
     <string name="menu_view">View</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
     
     <!-- Form -->
     <string name="title">Title</string>
