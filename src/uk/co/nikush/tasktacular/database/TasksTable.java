@@ -1,5 +1,8 @@
 package uk.co.nikush.tasktacular.database;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -41,6 +44,8 @@ public class TasksTable extends DatabaseHelper
             + KEY_DATE_CREATED + " TEXT NOT NULL, " + KEY_DATE_DUE + " TEXT, "
             + KEY_DATE_LAST_MODIFIED + " TEXT NOT NULL);";
 
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     public TasksTable(Context ctx)
     {
         super(ctx);
@@ -67,14 +72,16 @@ public class TasksTable extends DatabaseHelper
         onCreate(db);
     }
 
-    public long insertTask(String title, String description)
+    public long insertTask(String title, String description, String due_date)
     {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TITLE, title);
         initialValues.put(KEY_DESCRIPTION, description);
-        initialValues.put(KEY_DATE_CREATED, "");
-        initialValues.put(KEY_DATE_DUE, "");
-        initialValues.put(KEY_DATE_LAST_MODIFIED, "");
+
+        String now = format.format(new Date());
+        initialValues.put(KEY_DATE_CREATED, now);
+        initialValues.put(KEY_DATE_DUE, due_date);
+        initialValues.put(KEY_DATE_LAST_MODIFIED, now);
         return db.insert(TABLE_NAME, null, initialValues);
     }
 
@@ -102,10 +109,12 @@ public class TasksTable extends DatabaseHelper
 
     public boolean updateTask(long rowId, String title, String description)
     {
+        String now = format.format(new Date());
+
         ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);
         args.put(KEY_DESCRIPTION, description);
+        args.put(KEY_DATE_LAST_MODIFIED, now);
         return db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
-
 }
