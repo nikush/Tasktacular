@@ -99,7 +99,8 @@ public class TasksTable extends DatabaseHelper
     public Cursor getTask(long rowId) throws SQLException
     {
         Cursor mCursor = db.query(true, TABLE_NAME, new String[] { KEY_ROWID,
-                KEY_TITLE, KEY_DESCRIPTION }, KEY_ROWID + "=" + rowId, null, null, null, null, null);
+                KEY_TITLE, KEY_DESCRIPTION, KEY_DATE_CREATED, KEY_DATE_DUE,
+                KEY_DATE_LAST_MODIFIED }, KEY_ROWID + "=" + rowId, null, null, null, null, null);
         if (mCursor != null)
         {
             mCursor.moveToFirst();
@@ -107,7 +108,7 @@ public class TasksTable extends DatabaseHelper
         return mCursor;
     }
 
-    public boolean updateTask(long rowId, String title, String description)
+    public boolean updateTask(long rowId, String title, String description, String due_date)
     {
         String now = format.format(new Date());
 
@@ -115,6 +116,7 @@ public class TasksTable extends DatabaseHelper
         args.put(KEY_TITLE, title);
         args.put(KEY_DESCRIPTION, description);
         args.put(KEY_DATE_LAST_MODIFIED, now);
+        args.put(KEY_DATE_DUE, due_date);
         return db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
 }

@@ -53,8 +53,13 @@ public class TaskDetailActivity extends Activity
 
         TextView title = (TextView) findViewById(R.id.task_title);
         title.setText(record.getString(TasksTable.KEY_TITLE_INDEX));
+
         TextView description = (TextView) findViewById(R.id.task_description);
         description.setText(record.getString(TasksTable.KEY_DESCRIPTION_INDEX));
+
+        TextView due_date = (TextView) findViewById(R.id.task_due_date);
+        String due_date_val = record.getString(TasksTable.KEY_DATE_DUE_INDEX);
+        due_date.setText("Due: " + due_date_val);
     }
 
     public boolean onCreateOptionsMenu(Menu menu)
