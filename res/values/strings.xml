@@ -20,6 +20,7 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="form_add_task">Add Task</string>
+    <string name="form_save">Save</string>
     
     <!-- Activities -->
     <!-- Main -->
@@ -30,5 +31,8 @@
     
     <!-- Task Detail -->
     <string name="task_detail">Task Detail</string>
+    
+    <!-- Edit Task -->
+    <string name="edit_task">Edit Task</string>
 
 </resources>

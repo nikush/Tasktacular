@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 public class TaskDetailActivity extends Activity
 {
+    private long task_id;
+
+    private TasksTable tasks;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -22,12 +26,29 @@ public class TaskDetailActivity extends Activity
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        long task_id = getIntent().getLongExtra("task_id", 0);
+        task_id = getIntent().getLongExtra("task_id", 0);
 
-        TasksTable tasks = new TasksTable(this);
+        tasks = new TasksTable(this);
         tasks.open();
-        Cursor record = tasks.getTask(task_id);
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        readData();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
         tasks.close();
+    }
+
+    private void readData()
+    {
+        Cursor record = tasks.getTask(task_id);
 
         TextView title = (TextView) findViewById(R.id.task_title);
         title.setText(record.getString(TasksTable.KEY_TITLE_INDEX));
@@ -48,9 +69,19 @@ public class TaskDetailActivity extends Activity
         switch (item.getItemId())
         {
             case android.R.id.home:
-                Intent intent = new Intent(this, TasktacularActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                Intent home_intent = new Intent(this, TasktacularActivity.class);
+                home_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(home_intent);
+                return true;
+
+            case R.id.edit_button:
+                Intent edit_intent = new Intent(this, EditTaskActivity.class);
+                edit_intent.putExtra("task_id", task_id);
+                startActivity(edit_intent);
+                return true;
+
+            case R.id.delete_button:
+
                 return true;
 
             default:
