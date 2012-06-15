@@ -34,5 +34,8 @@
     
     <!-- Edit Task -->
     <string name="edit_task">Edit Task</string>
+    
+    <!-- Delete Task -->
+    <string name="delete_task_question">Delete this task?</string>
 
 </resources>

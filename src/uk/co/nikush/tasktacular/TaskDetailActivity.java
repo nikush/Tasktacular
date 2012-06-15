@@ -3,6 +3,7 @@ package uk.co.nikush.tasktacular;
 import uk.co.nikush.tasktacular.database.TasksTable;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -81,11 +82,21 @@ public class TaskDetailActivity extends Activity
                 return true;
 
             case R.id.delete_button:
-
+                showDialog();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showDialog()
+    {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        TaskDeleteDialog newFrag = TaskDeleteDialog.newInstance();
+        Bundle args = new Bundle();
+        args.putLong("task_id", task_id);
+        newFrag.setArguments(args);
+        newFrag.show(ft, "dialog");
     }
 }
