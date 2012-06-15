@@ -13,11 +13,14 @@
     <string name="menu_add">Add</string>
     <string name="menu_sort">Sort</string>
     <string name="menu_view">View</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
     
     <!-- Form -->
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="form_add_task">Add Task</string>
+    <string name="form_save">Save</string>
     
     <!-- Activities -->
     <!-- Main -->
@@ -28,5 +31,11 @@
     
     <!-- Task Detail -->
     <string name="task_detail">Task Detail</string>
+    
+    <!-- Edit Task -->
+    <string name="edit_task">Edit Task</string>
+    
+    <!-- Delete Task -->
+    <string name="delete_task_question">Delete this task?</string>
 
 </resources>

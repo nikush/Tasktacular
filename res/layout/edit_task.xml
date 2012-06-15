@@ -5,25 +5,23 @@
     android:orientation="vertical" >
 
     <EditText
-        android:id="@+id/title_input"
+        android:id="@+id/task_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:ems="10" 
-        android:hint="@string/title"/>
-
+        android:ems="10" />
+    
     <EditText
-        android:id="@+id/description_input"
+        android:id="@+id/task_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:ems="10" 
-        android:hint="@string/description"/>
+        android:ems="10" />
     
     <Button 
-        android:id="@+id/add_button"
+        android:id="@+id/save_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/form_add_task"/>
+        android:text="@string/form_save"/>
 
 </LinearLayout>
