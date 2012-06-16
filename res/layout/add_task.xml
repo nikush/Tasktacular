@@ -25,28 +25,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp" android:paddingLeft="10dp">
         
-        <TextView 
+        <TextView
             android:id="@+id/due_date_text"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="@string/add_due_date"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
-        
-        <Button 
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageButton
             android:id="@+id/due_date_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_remove"/>
+            android:src="@drawable/content_remove"
+            android:contentDescription="@string/menu_remove"
+            android:visibility="invisible" />
         
     </LinearLayout>
-    
-    <Button 
-        android:id="@+id/add_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/form_add_task"/>
 
 </LinearLayout>

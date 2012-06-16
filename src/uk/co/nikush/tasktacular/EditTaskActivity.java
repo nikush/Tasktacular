@@ -14,12 +14,14 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class EditTaskActivity extends Activity implements OnClickListener, OnDateSetListener
@@ -31,6 +33,8 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
     private EditText description_field;
 
     private TextView date_field;
+
+    private ImageButton date_remove;
 
     private TasksTable tasks;
 
@@ -51,8 +55,8 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
         description_field = (EditText) findViewById(R.id.task_description);
         date_field = (TextView) findViewById(R.id.due_date_text);
 
-        ((Button) findViewById(R.id.save_button)).setOnClickListener(this);
-        ((Button) findViewById(R.id.due_date_button)).setOnClickListener(this);
+        date_remove = (ImageButton) findViewById(R.id.due_date_button);
+        date_remove.setOnClickListener(this);
         ((TextView) findViewById(R.id.due_date_text)).setOnClickListener(this);
 
         task_id = getIntent().getLongExtra("task_id", 0);
@@ -79,7 +83,10 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
 
         task_date = date;
         if (date.isEmpty())
+        {
             date = getResources().getString(R.string.add_due_date);
+            date_remove.setVisibility(View.INVISIBLE);
+        }
 
         title_field.setText(title);
         description_field.setText(desc);
@@ -94,6 +101,14 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
             case android.R.id.home:
                 finish();
                 return true;
+
+            case R.id.save:
+                String title = title_field.getText().toString();
+                String desc = description_field.getText().toString();
+                tasks.updateTask(task_id, title, desc, constructDate());
+                finish();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -104,13 +119,6 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
     {
         switch (v.getId())
         {
-            case R.id.save_button:
-                String title = title_field.getText().toString();
-                String desc = description_field.getText().toString();
-                tasks.updateTask(task_id, title, desc, constructDate());
-                finish();
-                break;
-
             case R.id.due_date_text:
                 showDialog(0);
                 break;
@@ -118,6 +126,7 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
             case R.id.due_date_button:
                 task_date = "";
                 ((TextView) findViewById(R.id.due_date_text)).setText(getResources().getString(R.string.add_due_date));
+                date_remove.setVisibility(View.INVISIBLE);
                 break;
         }
     }
@@ -163,5 +172,14 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
     {
         task_date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
         ((TextView) findViewById(R.id.due_date_text)).setText(task_date);
+        date_remove.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.edit_task, menu);
+        return true;
     }
 }

@@ -9,11 +9,13 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -27,6 +29,8 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
 
     private String task_time = "00:00:00";
 
+    private ImageButton date_remove;
+
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -35,8 +39,9 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        ((Button) findViewById(R.id.add_button)).setOnClickListener(this);
-        ((Button) findViewById(R.id.due_date_button)).setOnClickListener(this);
+        date_remove = (ImageButton) findViewById(R.id.due_date_button);
+
+        date_remove.setOnClickListener(this);
         ((TextView) findViewById(R.id.due_date_text)).setOnClickListener(this);
     }
 
@@ -56,8 +61,16 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
             case R.id.due_date_button:
                 task_date = "";
                 ((TextView) findViewById(R.id.due_date_text)).setText(getResources().getString(R.string.add_due_date));
+                date_remove.setVisibility(View.INVISIBLE);
                 break;
         }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_task, menu);
+        return true;
     }
 
     @Override
@@ -69,6 +82,10 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
                 Intent intent = new Intent(this, TasktacularActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                return true;
+
+            case R.id.save:
+                addTask();
                 return true;
 
             default:
@@ -116,5 +133,6 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
     {
         task_date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
         ((TextView) findViewById(R.id.due_date_text)).setText(task_date);
+        date_remove.setVisibility(View.VISIBLE);
     }
 }

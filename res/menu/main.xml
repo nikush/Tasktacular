@@ -8,5 +8,6 @@
           android:showAsAction="ifRoom" />
     <item android:id="@+id/add_button"
           android:title="@string/menu_add"
+          android:icon="@drawable/content_new"
           android:showAsAction="ifRoom" />
 </menu>
