@@ -24,25 +24,29 @@ public class TasksTable extends DatabaseHelper
 
     public static final int KEY_DESCRIPTION_INDEX = 2;
 
+    public static final String KEY_COMPLETE = "complete";
+
+    public static final int KEY_COMPLETE_INDEX = 3;
+
     public static final String KEY_DATE_CREATED = "date_created";
 
-    public static final int KEY_DATE_CREATED_INDEX = 3;
+    public static final int KEY_DATE_CREATED_INDEX = 4;
 
     public static final String KEY_DATE_DUE = "date_due";
 
-    public static final int KEY_DATE_DUE_INDEX = 4;
+    public static final int KEY_DATE_DUE_INDEX = 5;
 
     public static final String KEY_DATE_LAST_MODIFIED = "date_last_modified";
 
-    public static final int KEY_DATE_LAST_MODIFIED_INDEX = 5;
+    public static final int KEY_DATE_LAST_MODIFIED_INDEX = 6;
 
     public static final String TABLE_NAME = "tasks";
 
     static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " ("
             + KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TITLE
-            + " TEXT NOT NULL, " + KEY_DESCRIPTION + " TEXT, "
-            + KEY_DATE_CREATED + " TEXT NOT NULL, " + KEY_DATE_DUE + " TEXT, "
-            + KEY_DATE_LAST_MODIFIED + " TEXT NOT NULL);";
+            + " TEXT NOT NULL, " + KEY_DESCRIPTION + " TEXT, " + KEY_COMPLETE
+            + " TEXT, " + KEY_DATE_CREATED + " TEXT NOT NULL, " + KEY_DATE_DUE
+            + " TEXT, " + KEY_DATE_LAST_MODIFIED + " TEXT NOT NULL);";
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -77,6 +81,7 @@ public class TasksTable extends DatabaseHelper
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TITLE, title);
         initialValues.put(KEY_DESCRIPTION, description);
+        initialValues.put(KEY_COMPLETE, 0);
 
         String now = format.format(new Date());
         initialValues.put(KEY_DATE_CREATED, now);
@@ -99,8 +104,8 @@ public class TasksTable extends DatabaseHelper
     public Cursor getTask(long rowId) throws SQLException
     {
         Cursor mCursor = db.query(true, TABLE_NAME, new String[] { KEY_ROWID,
-                KEY_TITLE, KEY_DESCRIPTION, KEY_DATE_CREATED, KEY_DATE_DUE,
-                KEY_DATE_LAST_MODIFIED }, KEY_ROWID + "=" + rowId, null, null, null, null, null);
+                KEY_TITLE, KEY_DESCRIPTION, KEY_COMPLETE, KEY_DATE_CREATED,
+                KEY_DATE_DUE, KEY_DATE_LAST_MODIFIED }, KEY_ROWID + "=" + rowId, null, null, null, null, null);
         if (mCursor != null)
         {
             mCursor.moveToFirst();
@@ -118,5 +123,19 @@ public class TasksTable extends DatabaseHelper
         args.put(KEY_DATE_LAST_MODIFIED, now);
         args.put(KEY_DATE_DUE, due_date);
         return db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
+    public void markAsComplete(long rowId)
+    {
+        ContentValues args = new ContentValues();
+        args.put(KEY_COMPLETE, 1);
+        db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null);
+    }
+
+    public void markAsIncomplete(long rowId)
+    {
+        ContentValues args = new ContentValues();
+        args.put(KEY_COMPLETE, 0);
+        db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null);
     }
 }

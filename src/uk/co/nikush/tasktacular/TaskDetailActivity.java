@@ -10,9 +10,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class TaskDetailActivity extends Activity
+public class TaskDetailActivity extends Activity implements OnCheckedChangeListener
 {
     private long task_id;
 
@@ -28,6 +31,8 @@ public class TaskDetailActivity extends Activity
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         task_id = getIntent().getLongExtra("task_id", 0);
+
+        ((CheckBox) findViewById(R.id.task_title)).setOnCheckedChangeListener(this);
 
         tasks = new TasksTable(this);
         tasks.open();
@@ -51,7 +56,7 @@ public class TaskDetailActivity extends Activity
     {
         Cursor record = tasks.getTask(task_id);
 
-        TextView title = (TextView) findViewById(R.id.task_title);
+        CheckBox title = (CheckBox) findViewById(R.id.task_title);
         title.setText(record.getString(TasksTable.KEY_TITLE_INDEX));
 
         TextView description = (TextView) findViewById(R.id.task_description);
@@ -60,6 +65,10 @@ public class TaskDetailActivity extends Activity
         TextView due_date = (TextView) findViewById(R.id.task_due_date);
         String due_date_val = record.getString(TasksTable.KEY_DATE_DUE_INDEX);
         due_date.setText("Due: " + due_date_val);
+
+        int checked = record.getInt(TasksTable.KEY_COMPLETE_INDEX);
+        if (checked == 1)
+            title.setChecked(true);
     }
 
     public boolean onCreateOptionsMenu(Menu menu)
@@ -103,5 +112,14 @@ public class TaskDetailActivity extends Activity
         args.putLong("task_id", task_id);
         newFrag.setArguments(args);
         newFrag.show(ft, "dialog");
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+    {
+        if (isChecked)
+            tasks.markAsComplete(task_id);
+        else
+            tasks.markAsIncomplete(task_id);
     }
 }
