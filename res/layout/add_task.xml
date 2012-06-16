@@ -31,7 +31,7 @@
             android:id="@+id/due_date_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/due_date"
+            android:text="@string/add_due_date"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
         

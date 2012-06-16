@@ -36,6 +36,7 @@
     
     <!-- Edit Task -->
     <string name="edit_task">Edit Task</string>
+    <string name="add_due_date">Add Due Date</string>
     
     <!-- Delete Task -->
     <string name="delete_task_question">Delete this task?</string>

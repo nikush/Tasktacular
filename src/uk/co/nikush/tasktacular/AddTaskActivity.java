@@ -55,7 +55,7 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
 
             case R.id.due_date_button:
                 task_date = "";
-                ((TextView) findViewById(R.id.due_date_text)).setText(getResources().getString(R.string.due_date));
+                ((TextView) findViewById(R.id.due_date_text)).setText(getResources().getString(R.string.add_due_date));
                 break;
         }
     }

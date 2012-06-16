@@ -1,6 +1,10 @@
 package uk.co.nikush.tasktacular;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import uk.co.nikush.tasktacular.database.TasksTable;
 import android.app.ActionBar;
@@ -26,6 +30,8 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
 
     private EditText description_field;
 
+    private TextView date_field;
+
     private TasksTable tasks;
 
     private String task_date = "";
@@ -43,6 +49,7 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
 
         title_field = (EditText) findViewById(R.id.task_title);
         description_field = (EditText) findViewById(R.id.task_description);
+        date_field = (TextView) findViewById(R.id.due_date_text);
 
         ((Button) findViewById(R.id.save_button)).setOnClickListener(this);
         ((Button) findViewById(R.id.due_date_button)).setOnClickListener(this);
@@ -68,9 +75,15 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
         Cursor c = tasks.getTask(task_id);
         String title = c.getString(TasksTable.KEY_TITLE_INDEX);
         String desc = c.getString(TasksTable.KEY_DESCRIPTION_INDEX);
+        String date = c.getString(TasksTable.KEY_DATE_DUE_INDEX);
+
+        task_date = date;
+        if (date.isEmpty())
+            date = getResources().getString(R.string.add_due_date);
 
         title_field.setText(title);
         description_field.setText(desc);
+        date_field.setText(date);
     }
 
     @Override
@@ -104,7 +117,7 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
 
             case R.id.due_date_button:
                 task_date = "";
-                ((TextView) findViewById(R.id.due_date_text)).setText(getResources().getString(R.string.due_date));
+                ((TextView) findViewById(R.id.due_date_text)).setText(getResources().getString(R.string.add_due_date));
                 break;
         }
     }
@@ -112,9 +125,29 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
     @Override
     protected Dialog onCreateDialog(int id)
     {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        int year, month, day;
+        // use taday's date
+        if (task_date.isEmpty())
+        {
+            year = Calendar.getInstance().get(Calendar.YEAR);
+            month = Calendar.getInstance().get(Calendar.MONTH);
+            day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        } else
+        {
+            Calendar cal = new GregorianCalendar();
+            try
+            {
+                Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(task_date);
+                cal.setTime(date);
+            } catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+            year = cal.get(Calendar.YEAR);
+            month = cal.get(Calendar.MONTH);
+            day = cal.get(Calendar.DAY_OF_MONTH);
+        }
+
         return new DatePickerDialog(this, this, year, month, day);
     }
 
