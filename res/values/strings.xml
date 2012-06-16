@@ -8,6 +8,7 @@
     <string name="tasks">Tasks</string>
     <string name="project">Project</string>
     <string name="projects">Projects</string>
+    <string name="due_date">Due Date</string>
     
     <!-- Menus -->
     <string name="menu_add">Add</string>
@@ -15,6 +16,8 @@
     <string name="menu_view">View</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_delete">Delete</string>
+    <string name="menu_remove">Remove</string>
+    <string name="menu_save">Save</string>
     
     <!-- Form -->
     <string name="title">Title</string>
@@ -34,8 +37,14 @@
     
     <!-- Edit Task -->
     <string name="edit_task">Edit Task</string>
+    <string name="add_due_date">Add Due Date</string>
     
     <!-- Delete Task -->
     <string name="delete_task_question">Delete this task?</string>
+    
+    <string-array name="list">
+        <item>blah</item>
+        <item>kasjhf</item>
+    </string-array>
 
 </resources>

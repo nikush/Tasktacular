@@ -20,10 +20,29 @@
         android:ems="10" 
         android:hint="@string/description"/>
     
-    <Button 
-        android:id="@+id/add_button"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/form_add_task"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" android:paddingLeft="10dp">
+        
+        <TextView
+            android:id="@+id/due_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/add_due_date"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageButton
+            android:id="@+id/due_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/content_remove"
+            android:contentDescription="@string/menu_remove"
+            android:visibility="invisible" />
+        
+    </LinearLayout>
 
 </LinearLayout>
