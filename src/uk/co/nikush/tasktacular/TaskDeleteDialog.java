@@ -24,6 +24,7 @@ public class TaskDeleteDialog extends DialogFragment implements DialogInterface.
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setIcon(getResources().getDrawable(R.drawable.alerts_and_states_warning));
         builder.setTitle(getResources().getString(R.string.delete_task_question));
         builder.setPositiveButton(getResources().getString(android.R.string.yes), this);
         builder.setNegativeButton(getResources().getString(android.R.string.no), this);
