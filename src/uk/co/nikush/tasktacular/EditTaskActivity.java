@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,6 +36,8 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
     private TextView date_field;
 
     private ImageButton date_remove;
+
+    private Button date_text_button;
 
     private TasksTable tasks;
 
@@ -57,7 +60,9 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
 
         date_remove = (ImageButton) findViewById(R.id.due_date_button);
         date_remove.setOnClickListener(this);
-        ((TextView) findViewById(R.id.due_date_text)).setOnClickListener(this);
+
+        date_text_button = (Button) findViewById(R.id.due_date_text);
+        date_text_button.setOnClickListener(this);
 
         task_id = getIntent().getLongExtra("task_id", 0);
 
@@ -125,7 +130,7 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
 
             case R.id.due_date_button:
                 task_date = "";
-                ((TextView) findViewById(R.id.due_date_text)).setText(getResources().getString(R.string.add_due_date));
+                date_text_button.setText(getResources().getString(R.string.add_due_date));
                 date_remove.setVisibility(View.INVISIBLE);
                 break;
         }
@@ -171,7 +176,7 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
     {
         task_date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-        ((TextView) findViewById(R.id.due_date_text)).setText(task_date);
+        date_text_button.setText(task_date);
         date_remove.setVisibility(View.VISIBLE);
     }
 
