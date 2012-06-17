@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -31,6 +32,8 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
 
     private ImageButton date_remove;
 
+    private Button date_text;
+
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -40,9 +43,10 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         date_remove = (ImageButton) findViewById(R.id.due_date_button);
-
         date_remove.setOnClickListener(this);
-        ((TextView) findViewById(R.id.due_date_text)).setOnClickListener(this);
+
+        date_text = (Button) findViewById(R.id.due_date_text);
+        date_text.setOnClickListener(this);
     }
 
     @Override
@@ -60,7 +64,7 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
 
             case R.id.due_date_button:
                 task_date = "";
-                ((TextView) findViewById(R.id.due_date_text)).setText(getResources().getString(R.string.add_due_date));
+                date_text.setText(getResources().getString(R.string.add_due_date));
                 date_remove.setVisibility(View.INVISIBLE);
                 break;
         }
@@ -132,7 +136,7 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
     {
         task_date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-        ((TextView) findViewById(R.id.due_date_text)).setText(task_date);
+        date_text.setText(task_date);
         date_remove.setVisibility(View.VISIBLE);
     }
 }

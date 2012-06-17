@@ -27,20 +27,20 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp" android:paddingLeft="10dp">
         
-        <TextView
+        <Button
             android:id="@+id/due_date_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/add_due_date"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/add_due_date" />
 
         <ImageButton
             android:id="@+id/due_date_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/content_remove"
+            android:layout_gravity="center_vertical"
             android:contentDescription="@string/menu_remove"
+            android:src="@drawable/content_remove"
             android:visibility="invisible" />
         
     </LinearLayout>
