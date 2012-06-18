@@ -49,8 +49,7 @@ public class TasksTable extends DatabaseHelper
 
     public Cursor getAllTasks()
     {
-        return db.query(TABLE_NAME, new String[] { KEY_ROWID, KEY_TITLE,
-                KEY_DESCRIPTION }, null, null, null, null, null);
+        return db.rawQuery("select * from tasks, trash where tasks._id != trash._id", null);
     }
 
     public Cursor getTask(long rowId) throws SQLException

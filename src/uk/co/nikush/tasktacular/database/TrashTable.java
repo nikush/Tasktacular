@@ -26,9 +26,7 @@ public class TrashTable extends DatabaseHelper
 
     public Cursor getAll()
     {
-        return db.query(TasksTable.TABLE_NAME, new String[] {
-                TasksTable.KEY_ROWID, TasksTable.KEY_TITLE,
-                TasksTable.KEY_DESCRIPTION }, null, null, null, null, null);
+        return db.rawQuery("select tasks.* from tasks, trash where tasks._id == trash._id", null);
     }
 
     public void getTask()

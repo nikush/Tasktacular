@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Simple class used to help working with the SQLiteOpenHelper.
@@ -18,18 +19,21 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper
 
     public static final int DATABASE_VERSION = 1;
 
-    public static final String TABLE_CREATE_TASKS = "CREATE TABLE "
-            + TasksTable.TABLE_NAME + " (" + TasksTable.KEY_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TasksTable.KEY_TITLE
-            + " TEXT NOT NULL, " + TasksTable.KEY_DESCRIPTION + " TEXT, "
-            + TasksTable.KEY_COMPLETE + " TEXT, " + TasksTable.KEY_DATE_CREATED
-            + " TEXT NOT NULL, " + TasksTable.KEY_DATE_DUE + " TEXT, "
-            + TasksTable.KEY_DATE_LAST_MODIFIED + " TEXT NOT NULL);";
+    public static final String TABLE_CREATE_TASKS = 
+        "CREATE TABLE " + TasksTable.TABLE_NAME + " ("
+        + TasksTable.KEY_ROWID
+        + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TasksTable.KEY_TITLE
+        + " TEXT NOT NULL, " + TasksTable.KEY_DESCRIPTION + " TEXT, "
+        + TasksTable.KEY_COMPLETE + " TEXT, " + TasksTable.KEY_DATE_CREATED
+        + " TEXT NOT NULL, " + TasksTable.KEY_DATE_DUE + " TEXT, "
+        + TasksTable.KEY_DATE_LAST_MODIFIED + " TEXT NOT NULL);";
 
-    public static final String TABLE_CREATE_TRASH = "CREATE TABLE "
-            + TrashTable.TABLE_NAME + " (" + TrashTable.KEY_ROWID
-            + " INTEGER PRIMARY KEY, " + TrashTable.KEY_DATE_ADDED
-            + " TEXT NOT NULL);";
+    public static final String TABLE_CREATE_TRASH = 
+        "CREATE TABLE " + TrashTable.TABLE_NAME + " ( "
+        + TrashTable.KEY_ROWID + " INTEGER PRIMARY KEY NOT NULL, "
+        + TrashTable.KEY_DATE_ADDED + " TEXT NOT NULL, "
+        + "FOREIGN KEY(" + TrashTable.KEY_ROWID + ") " +
+            "REFERENCES " + TasksTable.TABLE_NAME + "(" + TasksTable.KEY_ROWID + ") );";
 
     protected SQLiteDatabase db;
 
@@ -43,6 +47,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper
     {
         try
         {
+            Log.d("athedu", TABLE_CREATE_TRASH);
             db.execSQL(TABLE_CREATE_TASKS);
             db.execSQL(TABLE_CREATE_TRASH);
         } catch (SQLException e)
