@@ -3,6 +3,7 @@ package uk.co.nikush.tasktacular.database;
 import java.text.SimpleDateFormat;
 
 import android.content.Context;
+import android.database.Cursor;
 
 public class TrashTable extends DatabaseHelper
 {
@@ -23,9 +24,11 @@ public class TrashTable extends DatabaseHelper
         super(context);
     }
 
-    public void getAll()
+    public Cursor getAll()
     {
-
+        return db.query(TasksTable.TABLE_NAME, new String[] {
+                TasksTable.KEY_ROWID, TasksTable.KEY_TITLE,
+                TasksTable.KEY_DESCRIPTION }, null, null, null, null, null);
     }
 
     public void getTask()
