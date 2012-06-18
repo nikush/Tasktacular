@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Simple class used to help working with the SQLiteOpenHelper.
@@ -27,6 +26,11 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper
             + " TEXT NOT NULL, " + TasksTable.KEY_DATE_DUE + " TEXT, "
             + TasksTable.KEY_DATE_LAST_MODIFIED + " TEXT NOT NULL);";
 
+    public static final String TABLE_CREATE_TRASH = "CREATE TABLE "
+            + TrashTable.TABLE_NAME + " (" + TrashTable.KEY_ROWID
+            + " INTEGER PRIMARY KEY, " + TrashTable.KEY_DATE_ADDED
+            + " TEXT NOT NULL);";
+
     protected SQLiteDatabase db;
 
     public DatabaseHelper(Context context)
@@ -40,6 +44,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper
         try
         {
             db.execSQL(TABLE_CREATE_TASKS);
+            db.execSQL(TABLE_CREATE_TRASH);
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -49,9 +54,8 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        Log.w("TasksTable", "Upgrading TASKS from version " + oldVersion
-                + " to " + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TasksTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TrashTable.TABLE_NAME);
         onCreate(db);
     }
 
