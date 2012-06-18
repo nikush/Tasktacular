@@ -1,5 +1,7 @@
 package uk.co.nikush.tasktacular.database;
 
+import java.text.SimpleDateFormat;
+
 import android.content.Context;
 
 public class TrashTable extends DatabaseHelper
@@ -14,9 +16,31 @@ public class TrashTable extends DatabaseHelper
 
     public static final String TABLE_NAME = "trash";
 
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     public TrashTable(Context context)
     {
         super(context);
+    }
+
+    public void getAll()
+    {
+
+    }
+
+    public void getTask()
+    {
+
+    }
+
+    public void restore()
+    {
+
+    }
+
+    public void clean()
+    {
+
     }
 
 }

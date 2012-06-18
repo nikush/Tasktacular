@@ -71,7 +71,7 @@ public class TasksTable extends DatabaseHelper
         initialValues.put(KEY_TITLE, title);
         initialValues.put(KEY_DESCRIPTION, description);
         initialValues.put(KEY_COMPLETE, 0);
-    
+
         String now = format.format(new Date());
         initialValues.put(KEY_DATE_CREATED, now);
         initialValues.put(KEY_DATE_DUE, due_date);
@@ -91,9 +91,15 @@ public class TasksTable extends DatabaseHelper
         return db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
-    public boolean deleteTask(long rowId)
+    public void deleteTask(long id)
     {
-        return db.delete(TABLE_NAME, KEY_ROWID + "=" + rowId, null) > 0;
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(TrashTable.KEY_ROWID, id);
+
+        String now = format.format(new Date());
+        initialValues.put(TrashTable.KEY_DATE_ADDED, now);
+
+        db.insert(TrashTable.TABLE_NAME, null, initialValues);
     }
 
     public void markAsComplete(long rowId)
