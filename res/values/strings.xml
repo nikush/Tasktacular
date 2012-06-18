@@ -28,7 +28,7 @@
     
     <!-- Activities -->
     <!-- Main -->
-    <string name="no_tasks">No Tasks</string>
+    <string name="no_tasks">Tasks List Empty</string>
     
     <!-- Add Task -->
     <string name="add_task">Add Task</string>
