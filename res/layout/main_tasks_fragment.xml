@@ -12,7 +12,6 @@
     </ListView>
     
     <!-- This element is only showed when the list is empty -->
-
     <TextView
         android:id="@id/android:empty"
         android:layout_width="match_parent"

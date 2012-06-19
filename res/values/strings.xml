@@ -42,9 +42,7 @@
     <!-- Delete Task -->
     <string name="delete_task_question">Delete this task?</string>
     
-    <string-array name="list">
-        <item>blah</item>
-        <item>kasjhf</item>
-    </string-array>
+    <!-- Trash -->
+    <string name="trash_empty">Trash Is Empty</string>
 
 </resources>
