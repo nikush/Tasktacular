@@ -24,15 +24,15 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper
         + TasksTable.KEY_ROWID  + " INTEGER PRIMARY KEY AUTOINCREMENT, "
         + TasksTable.KEY_TITLE  + " TEXT NOT NULL, "
         + TasksTable.KEY_DESCRIPTION + " TEXT, "
-        + TasksTable.KEY_COMPLETE + " TEXT, "
-        + TasksTable.KEY_DATE_CREATED  + " TEXT NOT NULL, "
-        + TasksTable.KEY_DATE_DUE + " TEXT, "
-        + TasksTable.KEY_DATE_LAST_MODIFIED + " TEXT NOT NULL);";
+        + TasksTable.KEY_COMPLETE + " INTEGER, "
+        + TasksTable.KEY_DATE_CREATED  + " INTEGER NOT NULL, "
+        + TasksTable.KEY_DATE_DUE + " INTEGER, "
+        + TasksTable.KEY_DATE_LAST_MODIFIED + " INTEGER NOT NULL);";
 
     public static final String TABLE_CREATE_TRASH = 
         "CREATE TABLE " + TrashTable.TABLE_NAME + " ( "
         + TrashTable.KEY_ROWID + " INTEGER PRIMARY KEY NOT NULL, "
-        + TrashTable.KEY_DATE_ADDED + " TEXT NOT NULL, "
+        + TrashTable.KEY_DATE_ADDED + " INTEGER NOT NULL, "
         + "FOREIGN KEY(" + TrashTable.KEY_ROWID + ") " +
             "REFERENCES " + TasksTable.TABLE_NAME + "(" + TasksTable.KEY_ROWID + ") );";
 

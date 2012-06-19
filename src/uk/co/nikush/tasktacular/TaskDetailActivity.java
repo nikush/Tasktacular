@@ -2,6 +2,7 @@ package uk.co.nikush.tasktacular;
 
 import uk.co.nikush.tasktacular.database.TasksTable;
 import uk.co.nikush.tasktacular.handlers.TaskDetailHandler;
+import uk.co.nikush.tasktacular.helpers.DateHelper;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -67,8 +68,8 @@ public class TaskDetailActivity extends Activity
         description.setText(record.getString(TasksTable.KEY_DESCRIPTION_INDEX));
 
         TextView due_date = (TextView) findViewById(R.id.task_due_date);
-        String due_date_val = record.getString(TasksTable.KEY_DATE_DUE_INDEX);
-        due_date.setText("Due: " + due_date_val);
+        long due_date_val = record.getLong(TasksTable.KEY_DATE_DUE_INDEX);
+        due_date.setText("Due: " + DateHelper.format(due_date_val));
 
         int checked = record.getInt(TasksTable.KEY_COMPLETE_INDEX);
         if (checked == 1)

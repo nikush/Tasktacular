@@ -67,7 +67,7 @@ public class TasksTable extends DatabaseHelper
         return mCursor;
     }
 
-    public long insertTask(String title, String description, String due_date)
+    public long insertTask(String title, String description, long due_date)
     {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TITLE, title);
@@ -81,7 +81,7 @@ public class TasksTable extends DatabaseHelper
         return db.insert(TABLE_NAME, null, initialValues);
     }
 
-    public boolean updateTask(long rowId, String title, String description, String due_date)
+    public boolean updateTask(long rowId, String title, String description, long due_date)
     {
         String now = format.format(new Date());
 
