@@ -49,7 +49,7 @@ public class TasksTable extends DatabaseHelper
 
     public Cursor getAllTasks()
     {
-        return db.rawQuery("select * from tasks, trash where tasks._id != trash._id", null);
+        return db.rawQuery("select * from tasks where _id not in (select _id from trash)", null);
     }
 
     public Cursor getTask(long rowId) throws SQLException

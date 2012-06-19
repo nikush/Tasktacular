@@ -26,6 +26,7 @@ public class TrashTable extends DatabaseHelper
 
     public Cursor getAll()
     {
+        // change this to a union so it uses foreign key
         return db.rawQuery("select tasks.* from tasks, trash where tasks._id == trash._id", null);
     }
 
