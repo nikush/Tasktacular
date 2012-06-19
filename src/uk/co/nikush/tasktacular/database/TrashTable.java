@@ -1,7 +1,5 @@
 package uk.co.nikush.tasktacular.database;
 
-import java.text.SimpleDateFormat;
-
 import android.content.Context;
 import android.database.Cursor;
 
@@ -17,8 +15,6 @@ public class TrashTable extends DatabaseHelper
 
     public static final String TABLE_NAME = "trash";
 
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     public TrashTable(Context context)
     {
         super(context);
@@ -26,13 +22,10 @@ public class TrashTable extends DatabaseHelper
 
     public Cursor getAll()
     {
-        // change this to a union so it uses foreign key
-        return db.rawQuery("select tasks.* from tasks, trash where tasks._id == trash._id", null);
-    }
-
-    public void getTask()
-    {
-
+        return db.rawQuery("SELECT " + TasksTable.TABLE_NAME + ".* " +
+        		"FROM " + TasksTable.TABLE_NAME + ", " + TrashTable.TABLE_NAME +
+        		" WHERE " + TasksTable.TABLE_NAME + "." + TasksTable.KEY_ROWID + 
+        		      "== " + TrashTable.TABLE_NAME + "." + TrashTable.KEY_ROWID, null);
     }
 
     public void restore()

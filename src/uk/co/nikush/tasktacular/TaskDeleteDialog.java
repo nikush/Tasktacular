@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class TaskDeleteDialog extends DialogFragment implements DialogInterface.OnClickListener
 {
@@ -28,9 +27,6 @@ public class TaskDeleteDialog extends DialogFragment implements DialogInterface.
         builder.setTitle(getResources().getString(R.string.delete_task_question));
         builder.setPositiveButton(getResources().getString(android.R.string.yes), this);
         builder.setNegativeButton(getResources().getString(android.R.string.no), this);
-        TextView tv = new TextView(getActivity());
-        tv.setText("dskljhfasdkljfh");
-        //builder.setView(tv);
         return builder.create();
     }
 

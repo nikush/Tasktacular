@@ -1,6 +1,8 @@
 package uk.co.nikush.tasktacular;
 
 import uk.co.nikush.tasktacular.database.TasksTable;
+import uk.co.nikush.tasktacular.handlers.TaskDetailHandler;
+import uk.co.nikush.tasktacular.helpers.DateHelper;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -11,15 +13,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class TaskDetailActivity extends Activity implements OnCheckedChangeListener
+public class TaskDetailActivity extends Activity
 {
     private long task_id;
 
     private TasksTable tasks;
+    
+    private TaskDetailHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,11 +33,13 @@ public class TaskDetailActivity extends Activity implements OnCheckedChangeListe
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         task_id = getIntent().getLongExtra("task_id", 0);
-
-        ((CheckBox) findViewById(R.id.task_title)).setOnCheckedChangeListener(this);
-
+        
         tasks = new TasksTable(this);
         tasks.open();
+        
+        handler = new TaskDetailHandler(task_id, tasks);
+
+        ((CheckBox) findViewById(R.id.task_title)).setOnCheckedChangeListener(handler);
     }
 
     @Override
@@ -49,6 +53,7 @@ public class TaskDetailActivity extends Activity implements OnCheckedChangeListe
     protected void onDestroy()
     {
         super.onDestroy();
+        handler = null;
         tasks.close();
     }
 
@@ -63,8 +68,8 @@ public class TaskDetailActivity extends Activity implements OnCheckedChangeListe
         description.setText(record.getString(TasksTable.KEY_DESCRIPTION_INDEX));
 
         TextView due_date = (TextView) findViewById(R.id.task_due_date);
-        String due_date_val = record.getString(TasksTable.KEY_DATE_DUE_INDEX);
-        due_date.setText("Due: " + due_date_val);
+        long due_date_val = record.getLong(TasksTable.KEY_DATE_DUE_INDEX);
+        due_date.setText("Due: " + DateHelper.format(due_date_val));
 
         int checked = record.getInt(TasksTable.KEY_COMPLETE_INDEX);
         if (checked == 1)
@@ -112,14 +117,5 @@ public class TaskDetailActivity extends Activity implements OnCheckedChangeListe
         args.putLong("task_id", task_id);
         newFrag.setArguments(args);
         newFrag.show(ft, "dialog");
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-    {
-        if (isChecked)
-            tasks.markAsComplete(task_id);
-        else
-            tasks.markAsIncomplete(task_id);
     }
 }

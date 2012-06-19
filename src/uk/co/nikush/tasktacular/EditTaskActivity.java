@@ -1,12 +1,9 @@
 package uk.co.nikush.tasktacular;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import uk.co.nikush.tasktacular.database.TasksTable;
+import uk.co.nikush.tasktacular.helpers.DateHelper;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -41,9 +38,7 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
 
     private TasksTable tasks;
 
-    private String task_date = "";
-
-    private String task_time = "00:00:00";
+    private long task_due_timestamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,18 +79,21 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
         Cursor c = tasks.getTask(task_id);
         String title = c.getString(TasksTable.KEY_TITLE_INDEX);
         String desc = c.getString(TasksTable.KEY_DESCRIPTION_INDEX);
-        String date = c.getString(TasksTable.KEY_DATE_DUE_INDEX);
+        task_due_timestamp = c.getLong(TasksTable.KEY_DATE_DUE_INDEX);
 
-        task_date = date;
-        if (date.isEmpty())
+        String date_str;
+        if (task_due_timestamp == 0)
         {
-            date = getResources().getString(R.string.add_due_date);
+            date_str = getResources().getString(R.string.add_due_date);
             date_remove.setVisibility(View.INVISIBLE);
+        } else
+        {
+            date_str = DateHelper.format(task_due_timestamp);
         }
 
         title_field.setText(title);
         description_field.setText(desc);
-        date_field.setText(date);
+        date_field.setText(date_str);
     }
 
     @Override
@@ -110,7 +108,7 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
             case R.id.save:
                 String title = title_field.getText().toString();
                 String desc = description_field.getText().toString();
-                tasks.updateTask(task_id, title, desc, constructDate());
+                tasks.updateTask(task_id, title, desc, task_due_timestamp);
                 finish();
                 return true;
 
@@ -129,7 +127,7 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
                 break;
 
             case R.id.due_date_button:
-                task_date = "";
+                task_due_timestamp = 0;
                 date_text_button.setText(getResources().getString(R.string.add_due_date));
                 date_remove.setVisibility(View.INVISIBLE);
                 break;
@@ -140,43 +138,22 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
     protected Dialog onCreateDialog(int id)
     {
         int year, month, day;
-        // use taday's date
-        if (task_date.isEmpty())
-        {
-            year = Calendar.getInstance().get(Calendar.YEAR);
-            month = Calendar.getInstance().get(Calendar.MONTH);
-            day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        } else
-        {
-            Calendar cal = new GregorianCalendar();
-            try
-            {
-                Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(task_date);
-                cal.setTime(date);
-            } catch (ParseException e)
-            {
-                e.printStackTrace();
-            }
-            year = cal.get(Calendar.YEAR);
-            month = cal.get(Calendar.MONTH);
-            day = cal.get(Calendar.DAY_OF_MONTH);
-        }
+
+        long timeToUse = (task_due_timestamp == 0) ? DateHelper.now() : task_due_timestamp;
+        HashMap<String, Integer> map = DateHelper.disectTimestamp(timeToUse);
+        
+        year = map.get("year");
+        month = map.get("month");
+        day = map.get("day");
 
         return new DatePickerDialog(this, this, year, month, day);
-    }
-
-    private String constructDate()
-    {
-        if (task_date == "")
-            return "";
-        return task_date + " " + task_time;
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
     {
-        task_date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-        date_text_button.setText(task_date);
+        task_due_timestamp = DateHelper.makeTimestamp(year, monthOfYear, dayOfMonth);
+        date_text_button.setText(DateHelper.format(task_due_timestamp));
         date_remove.setVisibility(View.VISIBLE);
     }
 

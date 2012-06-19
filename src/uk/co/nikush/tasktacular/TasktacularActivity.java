@@ -95,23 +95,19 @@ public class TasktacularActivity extends Activity
     {
         ActionBar actionBar = getActionBar();
 
-        // remove the top of the action bar to only show tabs
-        //actionBar.setDisplayShowHomeEnabled(false);
-        //actionBar.setDisplayShowTitleEnabled(false);
-
         // Tell it we want to use tabs
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        ActionBar.Tab allTab = actionBar.newTab().setText(getResources().getString(R.string.tasks));
-        ActionBar.Tab projectsTab = actionBar.newTab().setText(getResources().getString(R.string.trash));
+        ActionBar.Tab tasksTab = actionBar.newTab().setText(getResources().getString(R.string.tasks));
+        ActionBar.Tab trashTab = actionBar.newTab().setText(getResources().getString(R.string.trash));
 
-        Fragment allFragment = new TasksFragment();
-        Fragment projectsFragment = new TrashFragment();
+        Fragment tasksFragment = new TasksFragment();
+        Fragment trashFragment = new TrashFragment();
 
-        allTab.setTabListener(new MainTabListener(allFragment));
-        projectsTab.setTabListener(new MainTabListener(projectsFragment));
+        tasksTab.setTabListener(new MainTabListener(tasksFragment));
+        trashTab.setTabListener(new MainTabListener(trashFragment));
 
-        actionBar.addTab(allTab);
-        actionBar.addTab(projectsTab);
+        actionBar.addTab(tasksTab);
+        actionBar.addTab(trashTab);
     }
 }

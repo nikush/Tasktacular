@@ -49,7 +49,10 @@ public class TasksTable extends DatabaseHelper
 
     public Cursor getAllTasks()
     {
-        return db.rawQuery("select * from tasks where _id not in (select _id from trash)", null);
+        return db.rawQuery("SELECT * " +
+        		"FROM " + TasksTable.TABLE_NAME + 
+        		" WHERE "+ TasksTable.KEY_ROWID +" NOT IN (" +
+        				"SELECT " + TrashTable.KEY_ROWID + " FROM "+ TrashTable.TABLE_NAME +")", null);
     }
 
     public Cursor getTask(long rowId) throws SQLException
@@ -64,7 +67,7 @@ public class TasksTable extends DatabaseHelper
         return mCursor;
     }
 
-    public long insertTask(String title, String description, String due_date)
+    public long insertTask(String title, String description, long due_date)
     {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TITLE, title);
@@ -78,7 +81,7 @@ public class TasksTable extends DatabaseHelper
         return db.insert(TABLE_NAME, null, initialValues);
     }
 
-    public boolean updateTask(long rowId, String title, String description, String due_date)
+    public boolean updateTask(long rowId, String title, String description, long due_date)
     {
         String now = format.format(new Date());
 

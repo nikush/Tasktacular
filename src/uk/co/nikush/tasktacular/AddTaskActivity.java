@@ -3,6 +3,7 @@ package uk.co.nikush.tasktacular;
 import java.util.Calendar;
 
 import uk.co.nikush.tasktacular.database.TasksTable;
+import uk.co.nikush.tasktacular.helpers.DateHelper;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -26,9 +27,7 @@ import android.widget.TextView;
  */
 public class AddTaskActivity extends Activity implements OnClickListener, DatePickerDialog.OnDateSetListener
 {
-    private String task_date = "";
-
-    private String task_time = "00:00:00";
+    private long task_due_timestamp;
 
     private ImageButton date_remove;
 
@@ -63,7 +62,7 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
                 break;
 
             case R.id.due_date_button:
-                task_date = "";
+                task_due_timestamp = 0;
                 date_text.setText(getResources().getString(R.string.add_due_date));
                 date_remove.setVisibility(View.INVISIBLE);
                 break;
@@ -107,7 +106,7 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
 
         TasksTable tasks = new TasksTable(this);
         tasks.open();
-        tasks.insertTask(title_val, desc_val, constructDate());
+        tasks.insertTask(title_val, desc_val, task_due_timestamp);
         tasks.close();
 
         // return to home 
@@ -125,18 +124,11 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
         return new DatePickerDialog(this, this, year, month, day);
     }
 
-    private String constructDate()
-    {
-        if (task_date == "")
-            return "";
-        return task_date + " " + task_time;
-    }
-
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
     {
-        task_date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-        date_text.setText(task_date);
+        task_due_timestamp = DateHelper.makeTimestamp(year, monthOfYear, dayOfMonth);
+        date_text.setText(DateHelper.format(task_due_timestamp));
         date_remove.setVisibility(View.VISIBLE);
     }
 }
