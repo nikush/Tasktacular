@@ -6,8 +6,7 @@
     <!-- Common words -->
     <string name="task">Task</string>
     <string name="tasks">Tasks</string>
-    <string name="project">Project</string>
-    <string name="projects">Projects</string>
+    <string name="trash">Trash</string>
     <string name="due_date">Due Date</string>
     
     <!-- Menus -->
@@ -28,7 +27,7 @@
     
     <!-- Activities -->
     <!-- Main -->
-    <string name="no_tasks">No Tasks</string>
+    <string name="no_tasks">Tasks List Empty</string>
     
     <!-- Add Task -->
     <string name="add_task">Add Task</string>
@@ -43,9 +42,7 @@
     <!-- Delete Task -->
     <string name="delete_task_question">Delete this task?</string>
     
-    <string-array name="list">
-        <item>blah</item>
-        <item>kasjhf</item>
-    </string-array>
+    <!-- Trash -->
+    <string name="trash_empty">Trash Is Empty</string>
 
 </resources>
