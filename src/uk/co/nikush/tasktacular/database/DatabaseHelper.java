@@ -21,11 +21,12 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper
 
     public static final String TABLE_CREATE_TASKS = 
         "CREATE TABLE " + TasksTable.TABLE_NAME + " ("
-        + TasksTable.KEY_ROWID
-        + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TasksTable.KEY_TITLE
-        + " TEXT NOT NULL, " + TasksTable.KEY_DESCRIPTION + " TEXT, "
-        + TasksTable.KEY_COMPLETE + " TEXT, " + TasksTable.KEY_DATE_CREATED
-        + " TEXT NOT NULL, " + TasksTable.KEY_DATE_DUE + " TEXT, "
+        + TasksTable.KEY_ROWID  + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+        + TasksTable.KEY_TITLE  + " TEXT NOT NULL, "
+        + TasksTable.KEY_DESCRIPTION + " TEXT, "
+        + TasksTable.KEY_COMPLETE + " TEXT, "
+        + TasksTable.KEY_DATE_CREATED  + " TEXT NOT NULL, "
+        + TasksTable.KEY_DATE_DUE + " TEXT, "
         + TasksTable.KEY_DATE_LAST_MODIFIED + " TEXT NOT NULL);";
 
     public static final String TABLE_CREATE_TRASH = 
