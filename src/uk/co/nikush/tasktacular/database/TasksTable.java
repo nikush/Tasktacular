@@ -7,8 +7,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class TasksTable extends DatabaseHelper
 {
@@ -42,12 +40,6 @@ public class TasksTable extends DatabaseHelper
 
     public static final String TABLE_NAME = "tasks";
 
-    static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " ("
-            + KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TITLE
-            + " TEXT NOT NULL, " + KEY_DESCRIPTION + " TEXT, " + KEY_COMPLETE
-            + " TEXT, " + KEY_DATE_CREATED + " TEXT NOT NULL, " + KEY_DATE_DUE
-            + " TEXT, " + KEY_DATE_LAST_MODIFIED + " TEXT NOT NULL);";
-
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public TasksTable(Context ctx)
@@ -55,25 +47,21 @@ public class TasksTable extends DatabaseHelper
         super(ctx);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db)
+    public Cursor getAllTasks()
     {
-        try
-        {
-            db.execSQL(TABLE_CREATE);
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        return db.rawQuery("select * from tasks where _id not in (select _id from trash)", null);
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    public Cursor getTask(long rowId) throws SQLException
     {
-        Log.w("TasksTable", "Upgrading TASKS from version " + oldVersion
-                + " to " + newVersion + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
+        Cursor mCursor = db.query(true, TABLE_NAME, new String[] { KEY_ROWID,
+                KEY_TITLE, KEY_DESCRIPTION, KEY_COMPLETE, KEY_DATE_CREATED,
+                KEY_DATE_DUE, KEY_DATE_LAST_MODIFIED }, KEY_ROWID + "=" + rowId, null, null, null, null, null);
+        if (mCursor != null)
+        {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
     }
 
     public long insertTask(String title, String description, String due_date)
@@ -90,29 +78,6 @@ public class TasksTable extends DatabaseHelper
         return db.insert(TABLE_NAME, null, initialValues);
     }
 
-    public boolean deleteTask(long rowId)
-    {
-        return db.delete(TABLE_NAME, KEY_ROWID + "=" + rowId, null) > 0;
-    }
-
-    public Cursor getAllTasks()
-    {
-        return db.query(TABLE_NAME, new String[] { KEY_ROWID, KEY_TITLE,
-                KEY_DESCRIPTION }, null, null, null, null, null);
-    }
-
-    public Cursor getTask(long rowId) throws SQLException
-    {
-        Cursor mCursor = db.query(true, TABLE_NAME, new String[] { KEY_ROWID,
-                KEY_TITLE, KEY_DESCRIPTION, KEY_COMPLETE, KEY_DATE_CREATED,
-                KEY_DATE_DUE, KEY_DATE_LAST_MODIFIED }, KEY_ROWID + "=" + rowId, null, null, null, null, null);
-        if (mCursor != null)
-        {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
-    }
-
     public boolean updateTask(long rowId, String title, String description, String due_date)
     {
         String now = format.format(new Date());
@@ -123,6 +88,17 @@ public class TasksTable extends DatabaseHelper
         args.put(KEY_DATE_LAST_MODIFIED, now);
         args.put(KEY_DATE_DUE, due_date);
         return db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
+    public void deleteTask(long id)
+    {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(TrashTable.KEY_ROWID, id);
+
+        String now = format.format(new Date());
+        initialValues.put(TrashTable.KEY_DATE_ADDED, now);
+
+        db.insert(TrashTable.TABLE_NAME, null, initialValues);
     }
 
     public void markAsComplete(long rowId)
