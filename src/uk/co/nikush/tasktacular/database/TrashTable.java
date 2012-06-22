@@ -23,6 +23,8 @@ public class TrashTable extends DatabaseHelper
     /**
      * Get all tasks in the trash.
      * 
+     * Tasks are ordered by the date they were trashed, in descending order.
+     * 
      * @return  all trashed tasks
      */
     public Cursor getAll()
@@ -30,7 +32,8 @@ public class TrashTable extends DatabaseHelper
         return db.rawQuery("SELECT " + TasksTable.TABLE_NAME + ".* " +
         		"FROM " + TasksTable.TABLE_NAME + ", " + TrashTable.TABLE_NAME +
         		" WHERE " + TasksTable.TABLE_NAME + "." + TasksTable.KEY_ROWID + 
-        		      "== " + TrashTable.TABLE_NAME + "." + TrashTable.KEY_ROWID, null);
+        		      "== " + TrashTable.TABLE_NAME + "." + TrashTable.KEY_ROWID +
+		          " ORDER BY " + TrashTable.KEY_DATE_ADDED + " DESC", null);
     }
 
     public void restore()

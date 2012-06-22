@@ -50,14 +50,25 @@ public class TasksTable extends DatabaseHelper
     /**
      * Get all active tasks.
      * 
+     * Task are ordered first by tasks with due dates in ascending order, then 
+     * tasks without due dates at the bottom.
+     * 
      * @return  All active tasks
      */
     public Cursor getAllTasks()
     {
-        return db.rawQuery("SELECT * " +
-        		"FROM " + TasksTable.TABLE_NAME + 
-        		" WHERE "+ TasksTable.KEY_ROWID +" NOT IN (" +
-        				"SELECT " + TrashTable.KEY_ROWID + " FROM "+ TrashTable.TABLE_NAME +")", null);
+        return db.rawQuery("SELECT * FROM (SELECT * " +
+                "FROM " + TasksTable.TABLE_NAME + 
+                " WHERE "+ TasksTable.KEY_ROWID +" NOT IN (" +
+                        "SELECT " + TrashTable.KEY_ROWID + " FROM "+ TrashTable.TABLE_NAME +") " +
+                        "AND " + TasksTable.KEY_DATE_DUE + " > 0" + 
+                " ORDER BY " + TasksTable.KEY_DATE_DUE + " ASC) " + 
+                "UNION ALL " +
+                "SELECT * FROM (SELECT * " +
+                "FROM " + TasksTable.TABLE_NAME + 
+                " WHERE "+ TasksTable.KEY_ROWID +" NOT IN (" +
+                        "SELECT " + TrashTable.KEY_ROWID + " FROM "+ TrashTable.TABLE_NAME +") " +
+                        "AND " + TasksTable.KEY_DATE_DUE + " == 0)", null);
     }
 
     /**
