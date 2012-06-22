@@ -1,6 +1,7 @@
 package uk.co.nikush.tasktacular;
 
 import uk.co.nikush.tasktacular.database.TasksTable;
+import uk.co.nikush.tasktacular.database.TrashTable;
 import uk.co.nikush.tasktacular.handlers.TaskDetailHandler;
 import uk.co.nikush.tasktacular.helpers.DateHelper;
 import android.app.ActionBar;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -22,6 +24,12 @@ public class TaskDetailActivity extends Activity
     private TasksTable tasks;
     
     private TaskDetailHandler handler;
+    
+    /**
+     * Used to indicate if using the 'restore' or 'edit' menus.
+     * Alse indicates if viewing a trashed or active task.
+     */
+    private boolean restore_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,19 +65,41 @@ public class TaskDetailActivity extends Activity
         tasks.close();
     }
 
+    /**
+     * Read data from database and display in data fields.
+     */
     private void readData()
     {
         Cursor record = tasks.getTask(task_id);
+        
+        // determine wether activity needs to show the edit or restor menus
+        TrashTable trash = new TrashTable(getBaseContext());
+        trash.open();
+        restore_menu = trash.taskInTrash(task_id);
+        trash.close();
 
         CheckBox title = (CheckBox) findViewById(R.id.task_title);
         title.setText(record.getString(TasksTable.KEY_TITLE_INDEX));
 
         TextView description = (TextView) findViewById(R.id.task_description);
-        description.setText(record.getString(TasksTable.KEY_DESCRIPTION_INDEX));
+        String desc_text = record.getString(TasksTable.KEY_DESCRIPTION_INDEX);
+        if (desc_text.isEmpty())
+        {
+            description.setVisibility(View.GONE);
+        } else
+        {
+            description.setText(desc_text);
+        }
 
         TextView due_date = (TextView) findViewById(R.id.task_due_date);
         long due_date_val = record.getLong(TasksTable.KEY_DATE_DUE_INDEX);
-        due_date.setText("Due: " + DateHelper.format(due_date_val));
+        if (due_date_val == 0)
+        {
+            due_date.setVisibility(View.GONE);
+        } else
+        {
+            due_date.setText("Due: " + DateHelper.format(due_date_val));
+        }
 
         int checked = record.getInt(TasksTable.KEY_COMPLETE_INDEX);
         if (checked == 1)
@@ -78,8 +108,9 @@ public class TaskDetailActivity extends Activity
 
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        int menuToInflate = restore_menu ? R.menu.task_detail_restore : R.menu.task_detail_edit;
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.task_detail, menu);
+        inflater.inflate(menuToInflate, menu);
         return true;
     }
 
@@ -102,6 +133,14 @@ public class TaskDetailActivity extends Activity
 
             case R.id.delete_button:
                 showDialog();
+                return true;
+                
+            case R.id.restore_button:
+                TrashTable trash = new TrashTable(getBaseContext());
+                trash.open();
+                trash.restore(task_id);
+                trash.close();
+                finish();
                 return true;
 
             default:

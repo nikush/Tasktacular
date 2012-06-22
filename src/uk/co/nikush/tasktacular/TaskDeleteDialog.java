@@ -40,6 +40,7 @@ public class TaskDeleteDialog extends DialogFragment implements DialogInterface.
             tasks.open();
             tasks.deleteTask(getArguments().getLong("task_id"));
             tasks.close();
+            
             Intent home_intent = new Intent(getActivity(), TasktacularActivity.class);
             home_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(home_intent);
