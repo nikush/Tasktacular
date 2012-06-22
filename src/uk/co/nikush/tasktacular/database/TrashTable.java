@@ -35,10 +35,33 @@ public class TrashTable extends DatabaseHelper
         		      "== " + TrashTable.TABLE_NAME + "." + TrashTable.KEY_ROWID +
 		          " ORDER BY " + TrashTable.KEY_DATE_ADDED + " DESC", null);
     }
-
-    public void restore()
+    
+    /**
+     * See if a task has been trashed.
+     * 
+     * @param   id  the task ID in the database
+     * @return  wether it's trashed or not
+     */
+    public boolean taskInTrash(long id)
     {
+        Cursor c = db.query(true, TABLE_NAME, new String[] { KEY_ROWID }, KEY_ROWID + "=" + id, null, null, null, null, null);
+        if (c != null)
+            return c.moveToFirst();
+        return false;
+    }
 
+    /**
+     * Restore a task from the trash back into the active tasks list.
+     * 
+     * This will remove indexing entry from the trash table allowing for the 
+     * task to appear to be active again.
+     * 
+     * @param   id  the taks ID in the database
+     * @return  if the restore was successfull
+     */
+    public boolean restore(long id)
+    {
+        return db.delete(TABLE_NAME, KEY_ROWID + "== " + id, null)  == 1;
     }
 
     public void clean()

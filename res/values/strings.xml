@@ -18,6 +18,7 @@
     <string name="menu_remove">Remove</string>
     <string name="menu_save">Save</string>
     <string name="menu_accept">Accept</string>
+    <string name="menu_restore">Restore</string>
     
     <!-- Form -->
     <string name="title">Title</string>

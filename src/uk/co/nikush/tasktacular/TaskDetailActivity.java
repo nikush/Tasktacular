@@ -1,6 +1,7 @@
 package uk.co.nikush.tasktacular;
 
 import uk.co.nikush.tasktacular.database.TasksTable;
+import uk.co.nikush.tasktacular.database.TrashTable;
 import uk.co.nikush.tasktacular.handlers.TaskDetailHandler;
 import uk.co.nikush.tasktacular.helpers.DateHelper;
 import android.app.ActionBar;
@@ -23,6 +24,12 @@ public class TaskDetailActivity extends Activity
     private TasksTable tasks;
     
     private TaskDetailHandler handler;
+    
+    /**
+     * Used to indicate if using the 'restore' or 'edit' menus.
+     * Alse indicates if viewing a trashed or active task.
+     */
+    private boolean restore_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,6 +71,12 @@ public class TaskDetailActivity extends Activity
     private void readData()
     {
         Cursor record = tasks.getTask(task_id);
+        
+        // determine wether activity needs to show the edit or restor menus
+        TrashTable trash = new TrashTable(getBaseContext());
+        trash.open();
+        restore_menu = trash.taskInTrash(task_id);
+        trash.close();
 
         CheckBox title = (CheckBox) findViewById(R.id.task_title);
         title.setText(record.getString(TasksTable.KEY_TITLE_INDEX));
@@ -95,8 +108,9 @@ public class TaskDetailActivity extends Activity
 
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        int menuToInflate = restore_menu ? R.menu.task_detail_restore : R.menu.task_detail_edit;
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.task_detail, menu);
+        inflater.inflate(menuToInflate, menu);
         return true;
     }
 
@@ -119,6 +133,14 @@ public class TaskDetailActivity extends Activity
 
             case R.id.delete_button:
                 showDialog();
+                return true;
+                
+            case R.id.restore_button:
+                TrashTable trash = new TrashTable(getBaseContext());
+                trash.open();
+                trash.restore(task_id);
+                trash.close();
+                finish();
                 return true;
 
             default:
