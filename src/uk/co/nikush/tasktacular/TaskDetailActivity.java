@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -57,6 +58,9 @@ public class TaskDetailActivity extends Activity
         tasks.close();
     }
 
+    /**
+     * Read data from database and display in data fields.
+     */
     private void readData()
     {
         Cursor record = tasks.getTask(task_id);
@@ -65,11 +69,24 @@ public class TaskDetailActivity extends Activity
         title.setText(record.getString(TasksTable.KEY_TITLE_INDEX));
 
         TextView description = (TextView) findViewById(R.id.task_description);
-        description.setText(record.getString(TasksTable.KEY_DESCRIPTION_INDEX));
+        String desc_text = record.getString(TasksTable.KEY_DESCRIPTION_INDEX);
+        if (desc_text.isEmpty())
+        {
+            description.setVisibility(View.GONE);
+        } else
+        {
+            description.setText(desc_text);
+        }
 
         TextView due_date = (TextView) findViewById(R.id.task_due_date);
         long due_date_val = record.getLong(TasksTable.KEY_DATE_DUE_INDEX);
-        due_date.setText("Due: " + DateHelper.format(due_date_val));
+        if (due_date_val == 0)
+        {
+            due_date.setVisibility(View.GONE);
+        } else
+        {
+            due_date.setText("Due: " + DateHelper.format(due_date_val));
+        }
 
         int checked = record.getInt(TasksTable.KEY_COMPLETE_INDEX);
         if (checked == 1)

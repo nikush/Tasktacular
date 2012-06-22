@@ -28,14 +28,14 @@
         android:layout_marginBottom="10dp" android:paddingLeft="10dp">
         
         <Button
-            android:id="@+id/due_date_text"
+            android:id="@+id/date_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/add_due_date" />
 
         <ImageButton
-            android:id="@+id/due_date_button"
+            android:id="@+id/date_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

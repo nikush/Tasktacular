@@ -4,6 +4,11 @@ import uk.co.nikush.tasktacular.database.TasksTable;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+/**
+ * Handler for managing interactions on the task detail activity.
+ * 
+ * @author  Nikush Patel
+ */
 public class TaskDetailHandler implements OnCheckedChangeListener
 {
     private long task_id;

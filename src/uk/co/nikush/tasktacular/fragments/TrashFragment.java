@@ -46,6 +46,9 @@ public class TrashFragment extends ListFragment
         trash.close();
     }
 
+    /**
+     * Read the thrashed tasks from the database.
+     */
     private void readTasks()
     {
         Cursor c = trash.getAll();

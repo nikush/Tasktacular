@@ -1,6 +1,6 @@
 package uk.co.nikush.tasktacular;
 
-import java.util.Calendar;
+import java.util.HashMap;
 
 import uk.co.nikush.tasktacular.database.TasksTable;
 import uk.co.nikush.tasktacular.helpers.DateHelper;
@@ -31,7 +31,7 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
 
     private ImageButton date_remove;
 
-    private Button date_text;
+    private Button date_add;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -41,11 +41,11 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        date_remove = (ImageButton) findViewById(R.id.due_date_button);
+        date_remove = (ImageButton) findViewById(R.id.date_remove);
         date_remove.setOnClickListener(this);
 
-        date_text = (Button) findViewById(R.id.due_date_text);
-        date_text.setOnClickListener(this);
+        date_add = (Button) findViewById(R.id.date_add);
+        date_add.setOnClickListener(this);
     }
 
     @Override
@@ -57,13 +57,13 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
                 addTask();
                 break;
 
-            case R.id.due_date_text:
+            case R.id.date_add:
                 showDialog(0);
                 break;
 
-            case R.id.due_date_button:
+            case R.id.date_remove:
                 task_due_timestamp = 0;
-                date_text.setText(getResources().getString(R.string.add_due_date));
+                date_add.setText(getResources().getString(R.string.add_due_date));
                 date_remove.setVisibility(View.INVISIBLE);
                 break;
         }
@@ -118,9 +118,14 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
     @Override
     protected Dialog onCreateDialog(int id)
     {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        int year, month, day;
+
+        HashMap<String, Integer> map = DateHelper.disectTimestamp(DateHelper.now());
+        
+        year = map.get("year");
+        month = map.get("month");
+        day = map.get("day");
+        
         return new DatePickerDialog(this, this, year, month, day);
     }
 
@@ -128,7 +133,7 @@ public class AddTaskActivity extends Activity implements OnClickListener, DatePi
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
     {
         task_due_timestamp = DateHelper.makeTimestamp(year, monthOfYear, dayOfMonth);
-        date_text.setText(DateHelper.format(task_due_timestamp));
+        date_add.setText(DateHelper.format(task_due_timestamp));
         date_remove.setVisibility(View.VISIBLE);
     }
 }

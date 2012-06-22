@@ -20,6 +20,11 @@ public class TrashTable extends DatabaseHelper
         super(context);
     }
 
+    /**
+     * Get all tasks in the trash.
+     * 
+     * @return  all trashed tasks
+     */
     public Cursor getAll()
     {
         return db.rawQuery("SELECT " + TasksTable.TABLE_NAME + ".* " +

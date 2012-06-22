@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 public class EditTaskActivity extends Activity implements OnClickListener, OnDateSetListener
 {
@@ -30,11 +29,9 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
 
     private EditText description_field;
 
-    private TextView date_field;
-
     private ImageButton date_remove;
 
-    private Button date_text_button;
+    private Button date_add;
 
     private TasksTable tasks;
 
@@ -51,13 +48,12 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
 
         title_field = (EditText) findViewById(R.id.task_title);
         description_field = (EditText) findViewById(R.id.task_description);
-        date_field = (TextView) findViewById(R.id.due_date_text);
 
-        date_remove = (ImageButton) findViewById(R.id.due_date_button);
+        date_remove = (ImageButton) findViewById(R.id.date_remove);
         date_remove.setOnClickListener(this);
 
-        date_text_button = (Button) findViewById(R.id.due_date_text);
-        date_text_button.setOnClickListener(this);
+        date_add = (Button) findViewById(R.id.date_add);
+        date_add.setOnClickListener(this);
 
         task_id = getIntent().getLongExtra("task_id", 0);
 
@@ -74,6 +70,9 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
         tasks.close();
     }
 
+    /**
+     * Populate all data fields with data from the database.
+     */
     private void populateFields()
     {
         Cursor c = tasks.getTask(task_id);
@@ -93,7 +92,7 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
 
         title_field.setText(title);
         description_field.setText(desc);
-        date_field.setText(date_str);
+        date_add.setText(date_str);
     }
 
     @Override
@@ -122,13 +121,13 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
     {
         switch (v.getId())
         {
-            case R.id.due_date_text:
+            case R.id.date_add:
                 showDialog(0);
                 break;
 
-            case R.id.due_date_button:
+            case R.id.date_remove:
                 task_due_timestamp = 0;
-                date_text_button.setText(getResources().getString(R.string.add_due_date));
+                date_add.setText(getResources().getString(R.string.add_due_date));
                 date_remove.setVisibility(View.INVISIBLE);
                 break;
         }
@@ -153,7 +152,7 @@ public class EditTaskActivity extends Activity implements OnClickListener, OnDat
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
     {
         task_due_timestamp = DateHelper.makeTimestamp(year, monthOfYear, dayOfMonth);
-        date_text_button.setText(DateHelper.format(task_due_timestamp));
+        date_add.setText(DateHelper.format(task_due_timestamp));
         date_remove.setVisibility(View.VISIBLE);
     }
 

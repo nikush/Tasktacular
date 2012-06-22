@@ -47,6 +47,11 @@ public class TasksTable extends DatabaseHelper
         super(ctx);
     }
 
+    /**
+     * Get all active tasks.
+     * 
+     * @return  All active tasks
+     */
     public Cursor getAllTasks()
     {
         return db.rawQuery("SELECT * " +
@@ -55,6 +60,13 @@ public class TasksTable extends DatabaseHelper
         				"SELECT " + TrashTable.KEY_ROWID + " FROM "+ TrashTable.TABLE_NAME +")", null);
     }
 
+    /**
+     * Get a particular task by its ID in the database.
+     * 
+     * @param   rowId   the record ID in the database
+     * @return  the task record
+     * @throws  SQLException
+     */
     public Cursor getTask(long rowId) throws SQLException
     {
         Cursor mCursor = db.query(true, TABLE_NAME, new String[] { KEY_ROWID,
@@ -67,6 +79,14 @@ public class TasksTable extends DatabaseHelper
         return mCursor;
     }
 
+    /**
+     * Insert a new task record into the database.
+     * 
+     * @param   title       the title of the task
+     * @param   description the task description
+     * @param   due_date    the unix timestamp representing when it is due
+     * @return  the ID of the database record
+     */
     public long insertTask(String title, String description, long due_date)
     {
         ContentValues initialValues = new ContentValues();
@@ -81,6 +101,15 @@ public class TasksTable extends DatabaseHelper
         return db.insert(TABLE_NAME, null, initialValues);
     }
 
+    /**
+     * Update a task.
+     * 
+     * @param   rowId       record ID in database
+     * @param   title       new title
+     * @param   description new description
+     * @param   due_date    new due date
+     * @return  wether the update was successfull
+     */
     public boolean updateTask(long rowId, String title, String description, long due_date)
     {
         String now = format.format(new Date());
@@ -93,6 +122,14 @@ public class TasksTable extends DatabaseHelper
         return db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
+    /**
+     * Delete the specified task.
+     * 
+     * This doesn't delete the record from the database, but marks it as 
+     * 'trashed' and to be deleted later.
+     *  
+     * @param   id      record ID
+     */
     public void deleteTask(long id)
     {
         ContentValues initialValues = new ContentValues();
@@ -104,6 +141,11 @@ public class TasksTable extends DatabaseHelper
         db.insert(TrashTable.TABLE_NAME, null, initialValues);
     }
 
+    /**
+     * Mark a task as complete.
+     * 
+     * @param   rowId   record ID
+     */
     public void markAsComplete(long rowId)
     {
         ContentValues args = new ContentValues();
@@ -111,6 +153,11 @@ public class TasksTable extends DatabaseHelper
         db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null);
     }
 
+    /**
+     * Mark a task as incomplete.
+     * 
+     * @param   rowId   record ID
+     */
     public void markAsIncomplete(long rowId)
     {
         ContentValues args = new ContentValues();
