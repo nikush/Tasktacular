@@ -9,24 +9,31 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+/**
+ * Dialog prompted the user when a task is being deleted.
+ * 
+ * @author  Nikush Patel
+ */
 public class TaskDeleteDialog extends DialogFragment implements DialogInterface.OnClickListener
 {
     static TaskDeleteDialog newInstance()
     {
-        TaskDeleteDialog dialog = new TaskDeleteDialog();
-        return dialog;
+        return new TaskDeleteDialog();
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setIcon(getResources().getDrawable(R.drawable.alerts_and_states_warning));
-        builder.setTitle(getResources().getString(R.string.delete_task_question));
         builder.setPositiveButton(getResources().getString(android.R.string.yes), this);
         builder.setNegativeButton(getResources().getString(android.R.string.no), this);
+        builder.setIcon(getResources().getDrawable(R.drawable.alerts_and_states_warning));
+        builder.setTitle(getResources().getString(R.string.delete_task_dialog_title));
+        
+        // inflating layout in onCreateView() doesn't work, so I'll do it here.
+        LayoutInflater li = getActivity().getLayoutInflater();
+        builder.setView(li.inflate(R.layout.delete_dialog_fragment, null));
+        
         return builder.create();
     }
 
@@ -45,12 +52,5 @@ public class TaskDeleteDialog extends DialogFragment implements DialogInterface.
             home_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(home_intent);
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        return super.onCreateView(inflater, container, savedInstanceState);
-        //return inflater.inflate(R.layout.delete_dialog_fragment, container, false);
     }
 }

@@ -41,7 +41,8 @@
     <string name="add_due_date">Add Due Date</string>
     
     <!-- Delete Task -->
-    <string name="delete_task_question">Delete this task?</string>
+    <string name="delete_task_dialog_title">Delete this task?</string>
+    <string name="delete_task_dialog_body">You will still be able to restore it from the trash.</string>
     
     <!-- Trash -->
     <string name="trash_empty">Trash Is Empty</string>
