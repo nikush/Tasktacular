@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="16dp" >
 
     <EditText
         android:id="@+id/title_input"
@@ -10,7 +11,9 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:ems="10" 
-        android:hint="@string/title"/>
+        android:hint="@string/title"
+        android:layout_marginBottom="4dp"
+        android:padding="12dp"/>
 
     <EditText
         android:id="@+id/description_input"
@@ -18,14 +21,16 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10" 
-        android:hint="@string/description"/>
+        android:hint="@string/description"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:padding="12dp"/>
     
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" android:paddingLeft="10dp">
+        android:layout_marginTop="8dp">
         
         <Button
             android:id="@+id/date_add"
