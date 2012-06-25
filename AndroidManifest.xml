@@ -11,8 +11,7 @@
         android:label="@string/app_name" >
         <activity
             android:name=".TasktacularActivity"
-            android:label="@string/app_name"
-            android:uiOptions="splitActionBarWhenNarrow"><!-- enable split action bar -->
+            android:label="@string/app_name">
             <intent-filter>
                 <!-- indicate that this activity serves as the entry point for the application -->
                 <action android:name="android.intent.action.MAIN" />

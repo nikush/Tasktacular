@@ -9,6 +9,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -83,6 +84,11 @@ public class TasktacularActivity extends Activity
             case R.id.add_button:
                 startActivity(new Intent(this, AddTaskActivity.class));
                 return true;
+                
+            case R.id.refresh_button:
+                Log.d("TasktacularActivity", "Refresh");
+                return true;
+                
             default:
                 return super.onOptionsItemSelected(item);
         }
