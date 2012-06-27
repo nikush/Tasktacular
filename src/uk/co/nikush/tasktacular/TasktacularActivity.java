@@ -10,7 +10,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -87,7 +86,6 @@ public class TasktacularActivity extends Activity
                 return true;
                 
             case R.id.refresh_button:
-                Log.d("TasktacularActivity", "Refresh");
                 SyncHandler sync = new SyncHandler();
                 sync.execute("http://10.0.2.2/tasktacular/");
                 return true;
