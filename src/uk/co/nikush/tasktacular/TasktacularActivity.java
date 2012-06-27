@@ -1,9 +1,9 @@
 package uk.co.nikush.tasktacular;
 
+import uk.co.nikush.tasktacular.asyctasks.SyncHandler;
 import uk.co.nikush.tasktacular.fragments.TasksFragment;
 import uk.co.nikush.tasktacular.fragments.TrashFragment;
 import uk.co.nikush.tasktacular.handlers.MainTabListener;
-import uk.co.nikush.tasktacular.handlers.SyncHandler;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -87,7 +87,7 @@ public class TasktacularActivity extends Activity
                 
             case R.id.refresh_button:
                 SyncHandler sync = new SyncHandler();
-                sync.execute("http://10.0.2.2/tasktacular/");
+                sync.synchronise();
                 return true;
                 
             default:

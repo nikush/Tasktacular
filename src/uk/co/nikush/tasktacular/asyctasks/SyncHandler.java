@@ -1,4 +1,4 @@
-package uk.co.nikush.tasktacular.handlers;
+package uk.co.nikush.tasktacular.asyctasks;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,14 +24,56 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class SyncHandler
+public class SyncHandler extends AsyncTask<String, Void, String>
 {
-    public void execute(String url)
+    /**
+     * Initate synchronisation.
+     */
+    public void synchronise()
     {
-        new ReadJsonFeedTask().execute(url);
+        execute("http://10.0.2.2/tasktacular/");
     }
     
-    private String readJsonFeed(String url)
+    /**
+     * Make the http request.
+     */
+    @Override
+    protected String doInBackground(String... urls)
+    {
+        return makeRequest(urls[0]);
+    }
+    
+    /**
+     * Process the http response.
+     */
+    @Override
+    protected void onPostExecute(String result)
+    {
+        try
+        {
+            // convert result string into JSON object
+            JSONArray jsonArray = new JSONArray(result);
+            
+            // loop over each child object in the root array
+            for (int i = 0; i < jsonArray.length(); i++)
+            {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Log.d("JSON", jsonObject.getString("data"));
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Structure and send the http request.
+     * 
+     * @param   url     api url
+     * @return  response as a JSON string
+     */
+    private String makeRequest(String url)
     {
         StringBuilder sb = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
@@ -39,6 +81,7 @@ public class SyncHandler
         
         try
         {
+            // json data to be sent in the request
             JSONObject json = new JSONObject();
             try
             {
@@ -49,14 +92,17 @@ public class SyncHandler
                 e.printStackTrace();
             }
             
+            // insert json data in the 'json' key
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("json", json.toString()));
             httpPost.setEntity(new UrlEncodedFormEntity(params));
             
+            // execute the request
             HttpResponse response = client.execute(httpPost);
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
             
+            // read response text into string
             if (statusCode == 200)
             {
                 HttpEntity entity = response.getEntity();
@@ -84,33 +130,5 @@ public class SyncHandler
         }
         
         return sb.toString();
-    }
-    
-    private class ReadJsonFeedTask extends AsyncTask<String, Void, String>
-    {
-        @Override
-        protected String doInBackground(String... urls)
-        {
-            return readJsonFeed(urls[0]);
-        }
-        
-        @Override
-        protected void onPostExecute(String result)
-        {
-            try
-            {
-                JSONArray jsonArray = new JSONArray(result);
-                
-                for (int i = 0; i < jsonArray.length(); i++)
-                {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    Log.d("JSON", jsonObject.getString("data"));
-                }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
     }
 }
