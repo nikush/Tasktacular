@@ -1,11 +1,19 @@
 package uk.co.nikush.tasktacular.handlers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -14,93 +22,76 @@ public class SyncHandler
 {
     public void execute(String url)
     {
-        new DownloadTextTask().execute(url);        
+        new ReadJsonFeedTask().execute(url);
     }
     
-    private String DownloadText(String url)
+    private String readJsonFeed(String url)
     {
-        int BUFFER_SIZE = 2000;
-        InputStream in = null;
+        StringBuilder sb = new StringBuilder();
+        HttpClient client = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(url);
         
         try
         {
-            in = openHttpConnection(url);
+            HttpResponse response = client.execute(httpGet);
+            StatusLine statusLine = response.getStatusLine();
+            int statusCode = statusLine.getStatusCode();
+            
+            if (statusCode == 200)
+            {
+                HttpEntity entity = response.getEntity();
+                InputStream content = entity.getContent();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(content)); 
+                String line;
+                
+                while ((line = reader.readLine()) != null)
+                {
+                    sb.append(line);
+                }
+            }
+            else
+            {
+                Log.e("JSON", "Failed to download file");
+            }
+        }
+        catch (ClientProtocolException e)
+        {
+            e.printStackTrace();
         }
         catch (IOException e)
         {
-            Log.d("SyncHandler", e.getLocalizedMessage());
-            return "";
+            e.printStackTrace();
         }
         
-        InputStreamReader isr = new InputStreamReader(in);
-        int charRead;
-        String str = "";
-        char[] inputBuffer = new char[BUFFER_SIZE];
-        
-        try
-        {
-            while ((charRead = isr.read(inputBuffer)) > 0)
-            {
-                String readString = String.copyValueOf(inputBuffer, 0, charRead);
-                str += readString;
-                inputBuffer = new  char[BUFFER_SIZE];
-            }
-            in.close();
-        } catch (IOException e)
-        {
-            Log.d("SyncHandler", e.getLocalizedMessage());
-            return "";
-        }
-        
-        return str;
+        return sb.toString();
     }
     
-    private InputStream openHttpConnection(String urlString) throws IOException
-    {
-        InputStream in = null;
-        int response = -1;
-        
-        URL url = new URL(urlString);
-        URLConnection conn = url.openConnection();
-        
-        if (!(conn instanceof HttpURLConnection))
-            throw new IOException("Not a HTTP connection.");
-        
-        try
-        {
-            HttpURLConnection httpConn = (HttpURLConnection) conn;
-            httpConn.setAllowUserInteraction(false);
-            httpConn.setInstanceFollowRedirects(true);
-            httpConn.setRequestMethod("GET");
-            httpConn.connect();
-            response = httpConn.getResponseCode();
-            
-            if (response == HttpURLConnection.HTTP_OK)
-            {
-                in = httpConn.getInputStream();
-            }
-        }
-        catch (Exception e)
-        {
-            Log.d("SyncHandler", e.getLocalizedMessage());
-            throw new IOException("Error connecting");
-        }
-        
-        return in;
-    }
-    
-    private class DownloadTextTask extends AsyncTask<String, Void, String>
+    private class ReadJsonFeedTask extends AsyncTask<String, Void, String>
     {
         @Override
         protected String doInBackground(String... urls)
         {
-            return DownloadText(urls[0]);
+            return readJsonFeed(urls[0]);
         }
         
         @Override
         protected void onPostExecute(String result)
         {
-            Log.d("SyncHandler", result);
+            try
+            {
+                JSONArray jsonArray = new JSONArray(result);
+                Log.i("JSON", "Length: " + jsonArray.length());
+                
+                for (int i = 0; i < jsonArray.length(); i++)
+                {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    Log.d("JSON", jsonObject.getString("key"));
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 }
