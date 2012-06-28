@@ -1,5 +1,6 @@
 package uk.co.nikush.tasktacular;
 
+import uk.co.nikush.tasktacular.asyctasks.SyncHandler;
 import uk.co.nikush.tasktacular.fragments.TasksFragment;
 import uk.co.nikush.tasktacular.fragments.TrashFragment;
 import uk.co.nikush.tasktacular.handlers.MainTabListener;
@@ -83,6 +84,12 @@ public class TasktacularActivity extends Activity
             case R.id.add_button:
                 startActivity(new Intent(this, AddTaskActivity.class));
                 return true;
+                
+            case R.id.refresh_button:
+                SyncHandler sync = new SyncHandler(this);
+                sync.synchronise();
+                return true;
+                
             default:
                 return super.onOptionsItemSelected(item);
         }

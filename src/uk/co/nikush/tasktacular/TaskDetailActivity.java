@@ -17,6 +17,11 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+/**
+ * The activity that displays all information for a particular task.
+ * 
+ * @author  Nikush Patel
+ */
 public class TaskDetailActivity extends Activity
 {
     private long task_id;
@@ -81,6 +86,7 @@ public class TaskDetailActivity extends Activity
         CheckBox title = (CheckBox) findViewById(R.id.task_title);
         title.setText(record.getString(TasksTable.KEY_TITLE_INDEX));
 
+        // if description exists, displat it, else hide the text view
         TextView description = (TextView) findViewById(R.id.task_description);
         String desc_text = record.getString(TasksTable.KEY_DESCRIPTION_INDEX);
         if (desc_text.isEmpty())
@@ -91,6 +97,7 @@ public class TaskDetailActivity extends Activity
             description.setText(desc_text);
         }
 
+        // same with the date
         TextView due_date = (TextView) findViewById(R.id.task_due_date);
         long due_date_val = record.getLong(TasksTable.KEY_DATE_DUE_INDEX);
         if (due_date_val == 0)

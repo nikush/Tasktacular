@@ -11,14 +11,13 @@
     
     <!-- Menus -->
     <string name="menu_add">Add</string>
-    <string name="menu_sort">Sort</string>
-    <string name="menu_view">View</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_remove">Remove</string>
     <string name="menu_save">Save</string>
     <string name="menu_accept">Accept</string>
     <string name="menu_restore">Restore</string>
+    <string name="menu_refresh">Refresh</string>
     
     <!-- Form -->
     <string name="title">Title</string>
@@ -41,7 +40,8 @@
     <string name="add_due_date">Add Due Date</string>
     
     <!-- Delete Task -->
-    <string name="delete_task_question">Delete this task?</string>
+    <string name="delete_task_dialog_title">Delete this task?</string>
+    <string name="delete_task_dialog_body">You will still be able to restore it from the trash.</string>
     
     <!-- Trash -->
     <string name="trash_empty">Trash Is Empty</string>
