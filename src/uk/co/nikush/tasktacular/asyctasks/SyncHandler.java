@@ -21,11 +21,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import uk.co.nikush.tasktacular.helpers.TaskJsonFormatter;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class SyncHandler extends AsyncTask<String, Void, String>
 {
+    private Context ctx;
+    
+    public SyncHandler(Context ctx)
+    {
+        this.ctx = ctx;
+    }
+    
     /**
      * Initate synchronisation.
      */
@@ -58,7 +67,7 @@ public class SyncHandler extends AsyncTask<String, Void, String>
             for (int i = 0; i < jsonArray.length(); i++)
             {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Log.d("JSON", jsonObject.getString("data"));
+                Log.d("JSON", "responseData: " + jsonObject.getString("data"));
             }
         }
         catch (Exception e)
@@ -85,8 +94,8 @@ public class SyncHandler extends AsyncTask<String, Void, String>
             JSONObject json = new JSONObject();
             try
             {
-                json.put("name", "Nikush");
-                json.put("age", 21);
+                json.put("las_sync_date", 0);
+                json.put("tasks", TaskJsonFormatter.getTasks(ctx));
             } catch (JSONException e)
             {
                 e.printStackTrace();

@@ -86,7 +86,7 @@ public class TasktacularActivity extends Activity
                 return true;
                 
             case R.id.refresh_button:
-                SyncHandler sync = new SyncHandler();
+                SyncHandler sync = new SyncHandler(this);
                 sync.synchronise();
                 return true;
                 

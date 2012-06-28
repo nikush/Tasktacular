@@ -175,4 +175,22 @@ public class TasksTable extends DatabaseHelper
         args.put(KEY_COMPLETE, 0);
         db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null);
     }
+    
+    /**
+     * Get all tasks that were created after a specified date.
+     * 
+     * @param   timestamp   date to search after
+     * @return  tasks created after the specified date 
+     */
+    public Cursor getTasksCreatedAfter(long timestamp)
+    {
+        Cursor mCursor = db.query(true, TABLE_NAME, new String[] { KEY_ROWID,
+                KEY_TITLE, KEY_DESCRIPTION, KEY_COMPLETE, KEY_DATE_CREATED,
+                KEY_DATE_DUE, KEY_DATE_LAST_MODIFIED }, KEY_DATE_CREATED + ">" + timestamp, null, null, null, null, null);
+        if (mCursor != null)
+        {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
 }
