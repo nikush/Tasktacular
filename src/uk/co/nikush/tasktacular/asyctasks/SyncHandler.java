@@ -21,13 +21,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import uk.co.nikush.tasktacular.helpers.DateHelper;
 import uk.co.nikush.tasktacular.helpers.TaskJsonFormatter;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SyncHandler extends AsyncTask<String, Void, String>
 {
+    public static final String PREFS_NAME = "TasktacularPrefs";
+
+    public static final String PREFS_LAST_SYNC = "lastSyncDate";
+    
     private Context ctx;
     
     public SyncHandler(Context ctx)
@@ -58,6 +65,7 @@ public class SyncHandler extends AsyncTask<String, Void, String>
     @Override
     protected void onPostExecute(String result)
     {
+        //Log.d("JSON", "result: " + result);
         try
         {
             // convert result string into JSON object
@@ -74,6 +82,14 @@ public class SyncHandler extends AsyncTask<String, Void, String>
         {
             e.printStackTrace();
         }
+        
+        // update last sync date to now
+        SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(PREFS_LAST_SYNC, DateHelper.now());
+        editor.commit();
+        
+        Toast.makeText(ctx, "Synchronised!", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -94,7 +110,11 @@ public class SyncHandler extends AsyncTask<String, Void, String>
             JSONObject json = new JSONObject();
             try
             {
-                json.put("las_sync_date", 0);
+                // send along last sync date
+                SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
+                long last_sync = prefs.getLong(PREFS_LAST_SYNC, 0);
+                
+                json.put("las_sync_date", last_sync);
                 json.put("tasks", TaskJsonFormatter.getTasks(ctx));
             } catch (JSONException e)
             {
