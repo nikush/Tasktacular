@@ -1,8 +1,8 @@
 package uk.co.nikush.tasktacular.database;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import uk.co.nikush.tasktacular.helpers.DateHelper;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -105,10 +105,9 @@ public class TasksTable extends DatabaseHelper
         initialValues.put(KEY_DESCRIPTION, description);
         initialValues.put(KEY_COMPLETE, 0);
 
-        String now = format.format(new Date());
-        initialValues.put(KEY_DATE_CREATED, now);
+        initialValues.put(KEY_DATE_CREATED, (long) DateHelper.now());
         initialValues.put(KEY_DATE_DUE, due_date);
-        initialValues.put(KEY_DATE_LAST_MODIFIED, now);
+        initialValues.put(KEY_DATE_LAST_MODIFIED, (long) DateHelper.now());
         return db.insert(TABLE_NAME, null, initialValues);
     }
 
@@ -123,12 +122,10 @@ public class TasksTable extends DatabaseHelper
      */
     public boolean updateTask(long rowId, String title, String description, long due_date)
     {
-        String now = format.format(new Date());
-
         ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);
         args.put(KEY_DESCRIPTION, description);
-        args.put(KEY_DATE_LAST_MODIFIED, now);
+        args.put(KEY_DATE_LAST_MODIFIED, (long) DateHelper.now());
         args.put(KEY_DATE_DUE, due_date);
         return db.update(TABLE_NAME, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
@@ -146,8 +143,7 @@ public class TasksTable extends DatabaseHelper
         ContentValues initialValues = new ContentValues();
         initialValues.put(TrashTable.KEY_ROWID, id);
 
-        String now = format.format(new Date());
-        initialValues.put(TrashTable.KEY_DATE_ADDED, now);
+        initialValues.put(TrashTable.KEY_DATE_ADDED, DateHelper.now());
 
         db.insert(TrashTable.TABLE_NAME, null, initialValues);
     }
@@ -180,13 +176,31 @@ public class TasksTable extends DatabaseHelper
      * Get all tasks that were created after a specified date.
      * 
      * @param   timestamp   date to search after
-     * @return  tasks created after the specified date 
+     * @return  tasks created after the specified date
      */
     public Cursor getTasksCreatedAfter(long timestamp)
     {
         Cursor mCursor = db.query(true, TABLE_NAME, new String[] { KEY_ROWID,
                 KEY_TITLE, KEY_DESCRIPTION, KEY_COMPLETE, KEY_DATE_CREATED,
                 KEY_DATE_DUE, KEY_DATE_LAST_MODIFIED }, KEY_DATE_CREATED + ">" + timestamp, null, null, null, null, null);
+        if (mCursor != null)
+        {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+    
+    /**
+     * Get all tasks that were modified after a specified date.
+     * 
+     * @param   timestamp   date to search after
+     * @return  tasks modified after the specified date
+     */
+    public Cursor getTasksModifiedAfter(long timestamp)
+    {
+        Cursor mCursor = db.query(true, TABLE_NAME, new String[] { KEY_ROWID,
+                KEY_TITLE, KEY_DESCRIPTION, KEY_COMPLETE, KEY_DATE_CREATED,
+                KEY_DATE_DUE, KEY_DATE_LAST_MODIFIED }, KEY_DATE_LAST_MODIFIED + ">" + timestamp, null, null, null, null, null);
         if (mCursor != null)
         {
             mCursor.moveToFirst();

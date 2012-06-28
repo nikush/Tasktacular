@@ -68,5 +68,22 @@ public class TrashTable extends DatabaseHelper
     {
 
     }
+    
+    /**
+     * Get all trash records added after a specified date.
+     * 
+     * @param   timestamp   the date to use
+     * @return  cursor of matching trash recordse
+     */
+    public Cursor getTasksAddedAfter(long timestamp)
+    {
+        Cursor mCursor = db.query(true, TABLE_NAME, new String[] { KEY_ROWID, KEY_DATE_ADDED }, 
+                KEY_DATE_ADDED + ">" + timestamp, null, null, null, null, null);
+        if (mCursor != null)
+        {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
 
 }

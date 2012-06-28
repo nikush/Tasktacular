@@ -65,31 +65,29 @@ public class SyncHandler extends AsyncTask<String, Void, String>
     @Override
     protected void onPostExecute(String result)
     {
-        //Log.d("JSON", "result: " + result);
         try
         {
             // convert result string into JSON object
             JSONArray jsonArray = new JSONArray(result);
-            
-            // loop over each child object in the root array
-            for (int i = 0; i < jsonArray.length(); i++)
+            JSONObject root = jsonArray.getJSONObject(0);
+            if (root.getBoolean("success"))
             {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Log.d("JSON", "responseData: " + jsonObject.getString("data"));
+                // update last sync date to now
+                SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putLong(PREFS_LAST_SYNC, DateHelper.now());
+                //editor.clear();   // used to clear last sync date for debugging
+                editor.commit();
+                
+                Toast.makeText(ctx, "Synchronised!", Toast.LENGTH_SHORT).show();
             }
         }
         catch (Exception e)
         {
+            Toast.makeText(ctx, "Synchronisation failed!", Toast.LENGTH_SHORT).show();
+
             e.printStackTrace();
         }
-        
-        // update last sync date to now
-        SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong(PREFS_LAST_SYNC, DateHelper.now());
-        editor.commit();
-        
-        Toast.makeText(ctx, "Synchronised!", Toast.LENGTH_SHORT).show();
     }
 
     /**
