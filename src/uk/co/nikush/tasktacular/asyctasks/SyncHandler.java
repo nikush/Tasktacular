@@ -47,7 +47,7 @@ public class SyncHandler extends AsyncTask<String, Void, String>
      */
     public void synchronise()
     {
-        execute("http://10.0.2.2/tasktacular/");
+        execute("http://www.nikush.co.uk/tasktacular/");
     }
     
     /**
